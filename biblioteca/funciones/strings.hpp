@@ -253,7 +253,11 @@ int stringToInt(string s) // ok
 string charToString(char c)
 {
    assert(c != '\0' && "El caracter no puede ser nulo");
-   return ""+c;
+   string s = "";
+
+   s+=c;
+
+   return s;
 }
 
 char stringToChar(string s)
