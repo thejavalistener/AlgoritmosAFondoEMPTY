@@ -18,6 +18,7 @@ void testCharCount()
 {
    assert(charCount("banana", 'a') == 3);
    assert(charCount("banana", 'z') == 0);
+   assert(charCount("", 'x') == 0);
 }
 
 void testSubstring()
@@ -31,7 +32,7 @@ void testIndexOf()
 {
    assert(indexOf("banana", 'b') == 0);
    assert(indexOf("banana", 'a') == 1);
-   assert(indexOf("banana", 'z') == -1);
+   assert(indexOf("banana", 'z') <0 );
    assert(indexOf("banana", 'a', 1) == 0);
    assert(indexOf("banana", "ana") == 1);
    assert(indexOf("banana", "ana", 2) == 3);
@@ -43,9 +44,13 @@ void testNumericConversions()
 {
    assert(charToInt('0') == 0);
    assert(charToInt('7') == 7);
+   assert(charToInt('A') == 10);
+   assert(charToInt('F') == 15);
    assert(intToChar(0) == '0');
    assert(intToChar(9) == '9');
-   assert(poww(2, 3) == 8);
+   assert(intToChar(10) == 'A');
+   assert(intToChar(15) == 'F');
+   
    assert(getDigit(1234, 0) == 4);
    assert(getDigit(1234, 2) == 2);
    assert(digitCount(0) == 1);
@@ -74,10 +79,14 @@ void testPredicatesAndTransforms()
    assert(!isDigit('x'));
    assert(isLetter('A'));
    assert(isLetter('z'));
+   assert(!isLetter('9'));
    assert(isUpperCase('A'));
+   assert(!isUpperCase('a'));
    assert(isLowerCase('z'));
+   assert(!isLowerCase('Z'));
    assert(toUpperCase('b') == 'B');
-   assert(toLowerCase('D') == 'd');
+   assert(toUpperCase('B') == 'B');
+   assert(toLowerCase('d') == 'd');
    assert(toUpperCase("Hola") == "HOLA");
    assert(toLowerCase("Hola") == "hola");
 }

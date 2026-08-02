@@ -162,16 +162,30 @@ int indexOfN(string s, char c, int n)
    return offset-1;
 }
 
+char toUpperCase(char);
+bool isLetter(char);
 int charToInt(char c)
 {
-   assert(isDigit(c) && "El caracter debe ser un digito entre '0' y '9'");
-   return c-'0';
+   assert(isLetter(c)||isDigit(c)&&"El caracter debe ser un digito entre '0' y '9'");
+
+   if( isDigit(c) )
+   {
+       return c-'0';
+   }
+   else
+   {
+       char x = toUpperCase(c);
+       return c-'A'+10;
+   }
+
+
 }
 
 char intToChar(int i)
 {
-   assert(i >= 0 && i <= 9 && "El entero debe estar entre 0 y 9");
-   return '0'+i;
+   assert(i >= 0 && i <= 15 && "El entero debe estar entre 0 y 15");
+   
+   return i<10?'0'+i:'A'+i-10;
 }
 
 int poww(int x, int y)
