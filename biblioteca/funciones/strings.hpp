@@ -37,7 +37,7 @@ int charCount(string s, char c)
 string substring(string s, int d, int h)
 {
    assert(d >= 0 && "El indice desde debe ser mayor o igual a 0");
-   assert(h > d && "El indice hasta debe ser mayor que desde");
+   assert(h >= d && "El indice hasta debe ser mayor que desde");
    assert(h <= length(s) && "El indice hasta debe ser menor o igual a la longitud de la cadena");
    string x = "";
    for( int i = d; i<h; i++ )
