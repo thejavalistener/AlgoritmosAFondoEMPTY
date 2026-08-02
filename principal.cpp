@@ -24,6 +24,8 @@ using std::to_string;
 
 int main()
 {
-    cout << "Hola Mundo!" << endl;
+    string s = "Esto es una prueba";
+    string x = substring(s,2,34);
+    cout << x << endl;
     return 0;
 }
