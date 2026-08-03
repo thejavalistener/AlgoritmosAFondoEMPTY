@@ -13,6 +13,9 @@ void testTokenCount()
    assert(tokenCount("", ',') == 0);
    assert(tokenCount("uno", ',') == 1);
    assert(tokenCount("uno,dos,tres", ',') == 3);
+   assert(tokenCount(",uno,dos,tres", ',') == 4);
+   assert(tokenCount("uno,dos,tres,", ',') == 4);
+   assert(tokenCount("uno,dos,tres,,", ',') == 5);
 }
 
 void testAddToken()
@@ -26,14 +29,19 @@ void testAddToken()
 
    addToken(s, ',', "tres");
    assert(s == "uno,dos,tres");
+
+   addToken(s, ',', "");
+   assert(s == "uno,dos,tres,");
 }
 
 void testGetTokenAt()
 {
-   string s = "uno,dos,tres";
-   assert(getTokenAt(s, ',', 0) == "uno");
-   assert(getTokenAt(s, ',', 1) == "dos");
-   assert(getTokenAt(s, ',', 2) == "tres");
+   string s = ",uno,dos,tres,";
+   assert(getTokenAt(s, ',', 0) == "");
+   assert(getTokenAt(s, ',', 1) == "uno");
+   assert(getTokenAt(s, ',', 2) == "dos");
+   assert(getTokenAt(s, ',', 3) == "tres");
+   assert(getTokenAt(s, ',', 4) == "");
 }
 
 void testRemoveTokenAt()
