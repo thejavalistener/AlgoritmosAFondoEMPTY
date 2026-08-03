@@ -9,7 +9,13 @@
 #include "biblioteca/funciones/strings.hpp"
 #include "biblioteca/funciones/tokens.hpp"
 #include "biblioteca/tads/parte1/Coll.hpp"
-using namespace std;
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::getline;
+using std::string;
+using std::to_string;
 
 
 

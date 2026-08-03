@@ -14,6 +14,7 @@
 #include "biblioteca/tads/parte2/List.hpp"
 #include "biblioteca/tads/parte2/Queue.hpp"
 #include "biblioteca/tads/parte2/Stack.hpp"
+#include "biblioteca/tads/parte2/Array.hpp"
 
 using std::cin;
 using std::cout;
@@ -25,23 +26,23 @@ using std::to_string;
 
 int main()
 {
-    Coll<int> c = coll<int>();
-    collAdd<int>(c,1,intToString);
-    collAdd<int>(c,2,intToString);
-    collAdd<int>(c,3,intToString);
+    // Coll<int> c = coll<int>();
+    // collAdd<int>(c,1,intToString);
+    // collAdd<int>(c,2,intToString);
+    // collAdd<int>(c,3,intToString);
 
-    collReset<int>(c);
-    while( collHasNext<int>(c) )
-    {
-        int x = collNext<int>(c,stringToInt);
-        cout << x << endl;
-    }
+    // collReset<int>(c);
+    // while( collHasNext<int>(c) )
+    // {
+    //     int x = collNext<int>(c,stringToInt);
+    //     cout << x << endl;
+    // }
 
-    for(int i=0; i<collSize<int>(c); i++)
-    {
-        int x = collGetAt<int>(c,i,stringToInt);
-        cout << x << endl;
-    }
+    // for(int i=0; i<collSize<int>(c); i++)
+    // {
+    //     int x = collGetAt<int>(c,i,stringToInt);
+    //     cout << x << endl;
+    // }
 
     return 0;
 }
