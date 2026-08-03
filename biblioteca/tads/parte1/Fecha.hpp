@@ -58,23 +58,23 @@ long long fechaInMillis(Fecha f)
     return f.ts;
 }
 
-Fecha fechaAddSegundos(Fecha f, int n)
+Fecha fechaAddSegundos(Fecha f, long long n)
 {
     long long x = f.ts + n * 1000;
     return {x};
 }
 
-Fecha fechaAddMinutos(Fecha f, int n)
+Fecha fechaAddMinutos(Fecha f, long long n)
 {
     return fechaAddSegundos(f, n * 60);
 }
 
-Fecha fechaAddHoras(Fecha f, int n)
+Fecha fechaAddHoras(Fecha f, long long n)
 {
     return fechaAddMinutos(f, n * 60);
 }
 
-Fecha fechaAddDias(Fecha f, int n)
+Fecha fechaAddDias(Fecha f, long long n)
 {
     return fechaAddHoras(f, n * 24);
 }
@@ -112,7 +112,7 @@ string fechaToString(Fecha f)
 
 bool fechaEsAnioBisiesto(int anio)
 {
-    return anio % 100 == 100 || anio % 400 == 0 && anio % 100 != 0;
+    return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
 }
 
 bool fechaEsAnioBisiesto(Fecha f)
