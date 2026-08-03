@@ -61,7 +61,6 @@ T* listAddFirst(List<T>& lst, T e)
 template <typename T, typename K>
 T listRemove(List<T>& lst, K k, int cmpTK(T, K))
 {
-    assert((listSize<T>(lst)) > 0 && "La lista no puede estar vacia");
     assert(cmpTK != nullptr && "La funcion cmpTK no puede ser nula");
     lst.size--;
     T ret = remove<T, K>(lst.p, k, cmpTK);
