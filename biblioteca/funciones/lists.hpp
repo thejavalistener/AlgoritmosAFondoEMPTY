@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <cassert>
 
 template <typename T>
 struct Node
@@ -50,6 +51,8 @@ Node<T>* addFirst(Node<T>*& p, T e)
 template <typename T, typename K>
 T remove(Node<T>*& p, K k, int cmpTK(T, K))
 {
+   assert(p != NULL && "La lista no puede estar vacia");
+   assert(cmpTK != nullptr && "La funcion cmpTK no puede ser nula");
    Node<T>* aux = p;
    Node<T>* ant = NULL;
 
@@ -59,6 +62,7 @@ T remove(Node<T>*& p, K k, int cmpTK(T, K))
       aux = aux->sig;
    }
 
+   assert(aux != NULL && "El elemento a remover debe existir en la lista");
    if( ant!=NULL )
    {
       ant->sig = aux->sig;
@@ -77,6 +81,7 @@ T remove(Node<T>*& p, K k, int cmpTK(T, K))
 template <typename T>
 T removeFirst(Node<T>*& p)
 {
+   assert(p != NULL && "La lista no puede estar vacia");
    T ret = p->info;
    Node<T>* aux = p->sig;
 
@@ -89,6 +94,7 @@ T removeFirst(Node<T>*& p)
 template <typename T, typename K>
 Node<T>* find(Node<T>* p, K k, int cmpTK(T, K))
 {
+   assert(cmpTK != nullptr && "La funcion cmpTK no puede ser nula");
    Node<T>* aux = p;
    while( aux!=NULL&&cmpTK(aux->info,k)!=0 )
    {
@@ -101,6 +107,7 @@ Node<T>* find(Node<T>* p, K k, int cmpTK(T, K))
 template <typename T>
 Node<T>* orderedInsert(Node<T>*& p, T e, int cmpTT(T, T))
 {
+   assert(cmpTT != nullptr && "La funcion cmpTT no puede ser nula");
    Node<T>* nuevo = new Node<T>();
    nuevo->info = e;
    nuevo->sig = NULL;
@@ -130,6 +137,7 @@ Node<T>* orderedInsert(Node<T>*& p, T e, int cmpTT(T, T))
 template <typename T>
 Node<T>* searchAndInsert(Node<T>*& p, T e, bool& enc, int cmpTT(T, T))
 {
+   assert(cmpTT != nullptr && "La funcion cmpTT no puede ser nula");
    Node<T>* x = find<T, T>(p,e,cmpTT);
    enc = x!=NULL;
 
@@ -144,6 +152,7 @@ Node<T>* searchAndInsert(Node<T>*& p, T e, bool& enc, int cmpTT(T, T))
 template <typename T>
 void sort(Node<T>*& p, int cmpTT(T, T))
 {
+   assert(cmpTT != nullptr && "La funcion cmpTT no puede ser nula");
    Node<T>* q = NULL;
    while( p!=NULL )
    {
@@ -180,12 +189,14 @@ Node<T>* push(Node<T>*& p, T e)
 
 template <typename T> T pop(Node<T>*& p)
 {
+   assert(p != NULL && "La pila no puede estar vacia");
    return removeFirst(p);
 }
 
 template <typename T>
 Node<T>* enqueue(Node<T>*& p, Node<T>*& q, T e)
 {
+   assert((p == NULL && q == NULL) || (p != NULL && q != NULL) && "Los punteros de la cola deben ser ambos nulos o ambos validos");
    Node<T>* aux = add<T>(q,e);
    if( p==NULL )
    {
@@ -214,11 +225,14 @@ Node<T>* enqueue(Node<T>*& q, T e)
       nuevo->sig = nuevo;
    }
    q = nuevo;
+   return nuevo;
 }
 
 template <typename T>
 T dequeue(Node<T>*& p, Node<T>*& q)
 {
+   assert(p != NULL && "La cola no puede estar vacia");
+   assert(q != NULL && "La cola no puede estar vacia");
    T v = removeFirst<T>(p);
 
    if( p==NULL )
@@ -232,6 +246,7 @@ T dequeue(Node<T>*& p, Node<T>*& q)
 template <typename T>
 T dequeue(Node<T>*& q)
 {
+   assert(q != NULL && "La cola circular no puede estar vacia");
    Node<T>* aux = q->sig;
    q->sig = aux->sig;
    T ret = aux->info;
