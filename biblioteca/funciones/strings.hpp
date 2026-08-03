@@ -213,8 +213,7 @@ int getDigit(int n, int i)
 {
     assert(n >= 0 && "El numero debe ser mayor o igual a 0");
     assert(i >= 0 && "La posicion del digito debe ser mayor o igual a 0");
-    assert(i < digitCount(n) &&
-           "La posicion del digito debe existir dentro del numero");
+    assert(i < digitCount(n) && "La posicion del digito debe existir dentro del numero");
     int r1 = n % (int)poww(10, i + 1);
     return r1 / (pow(10, i));
 }
@@ -330,8 +329,7 @@ bool startsWith(string s, string x)
 
 bool endsWith(string s, string x)
 {
-    assert(length(x) <= length(s) &&
-           "El sufijo no puede ser mas largo que la cadena");
+    assert(length(x) <= length(s) && "El sufijo no puede ser mas largo que la cadena");
     return substring(s, length(s) - length(x)) == x;
 }
 
@@ -351,11 +349,14 @@ string replace(string s, char oldChar, char newChar)
     return s;
 }
 
+void f(int* x)
+{
+}
+
 string insertAt(string s, int pos, char c)
 {
     assert(pos >= 0 && "La posicion debe ser mayor o igual a 0");
-    assert(pos <= length(s) &&
-           "La posicion debe ser menor o igual a la longitud de la cadena");
+    assert(pos <= length(s) && "La posicion debe ser menor o igual a la longitud de la cadena");
     return substring(s, 0, pos) + c + substring(s, pos);
 }
 
@@ -411,22 +412,22 @@ string spaces(int n)
 string lpad(string s, int n, char c)
 {
     assert(n > 0 && "n debe ser > 0");
-    if( n<=length(s) ) return s;
- 
+    if(n <= length(s)) return s;
+
     return replicate(c, n - length(s)) + s;
 }
 
 string rpad(string s, int n, char c)
 {
     assert(n > 0 && "n debe ser > 0");
-    if( n<=length(s) ) return s;
+    if(n <= length(s)) return s;
     return s + replicate(c, n - length(s));
 }
 
 string cpad(string s, int n, char c)
 {
     assert(n > 0 && "n debe ser > 0");
-    if( n<=length(s) ) return s;
+    if(n <= length(s)) return s;
     int dif = (n - length(s)) / 2;
     int res = (n - length(s)) % 2;
     return replicate(c, dif) + s + replicate(c, dif + res);
@@ -494,13 +495,15 @@ int cmpString(string a, string b)
 {
     assert(length(a) >= 0 && length(b) >= 0 &&
            "Las cadenas recibidas deben ser validas");
-    return a < b ? -1 : a > b ? 1 : 0;
+    return a < b ? -1 : a > b ? 1
+                              : 0;
 }
 
 int cmpDouble(double a, double b)
 {
     assert(true && "Los valores double recibidos deben ser validos");
-    return a < b ? -1 : a > b ? 1 : 0;
+    return a < b ? -1 : a > b ? 1
+                              : 0;
 }
 
 char* stringToCString(string s)
