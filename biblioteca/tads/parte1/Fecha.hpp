@@ -14,7 +14,6 @@ using std::to_string;
 
 struct Fecha
 {
-    long long ts;
 };
 
 // prototipos de 
@@ -35,145 +34,115 @@ void fechaSetMillis(Fecha& f,int millis);
 
 Fecha fecha(long long ts)
 {
-    return {ts};
+    Fecha f;
+    return f;
 }
 
 Fecha fecha()
 {
-    return {currTimeMillis()};
+    Fecha f;
+    return f;
 }
 
 Fecha fecha(int anio, int mes, int dia, int hora, int min)
 {
-    return {attributesToMillis(anio, mes, dia, hora, min, 0, 0)};
+    Fecha f;
+    return f;
 }
 
 Fecha fecha(int anio, int mes, int dia)
 {
-    return fecha(anio, mes, dia, 0, 0);
+    Fecha f;
+    return f;
 }
 
 long long fechaInMillis(Fecha f)
 {
-    return f.ts;
+    return 0;
 }
 
 Fecha fechaAddSegundos(Fecha f, long long n)
 {
-    long long x = f.ts + n * 1000;
-    return {x};
+    Fecha x;
+    return x;
 }
 
 Fecha fechaAddMinutos(Fecha f, long long n)
 {
-    return fechaAddSegundos(f, n * 60);
+    Fecha x;
+    return x;
 }
 
 Fecha fechaAddHoras(Fecha f, long long n)
 {
-    return fechaAddMinutos(f, n * 60);
+    Fecha x;
+    return x;
 }
 
 Fecha fechaAddDias(Fecha f, long long n)
 {
-    return fechaAddHoras(f, n * 24);
+    Fecha x;
+    return x;
 }
 
 long long fechaDiffMillis(Fecha a, Fecha b)
 {
-    long long x = a.ts - b.ts;
-    return x < 0 ? x * -1 : x;
+    return 0;
 }
 
 int fechaDiffDias(Fecha a, Fecha b)
 {
-    int dias = fechaDiffMillis(a, b) / (1000 * 60 * 60 * 24);
-    return dias;
+    return 0;
 }
 
 int fechaCmp(Fecha a, Fecha b)
 {
-    long long x = a.ts - b.ts;
-    return x < 0 ? -1 : x > 0 ? 1 : 0;
+    return 0;
 }
 
 int fechaCmpDiaMesAnio(Fecha a, Fecha b)
 {
-    long long la = attributesToMillis(fechaGetAnio(a),fechaGetMes(a),fechaGetDia(a),0,0,0,0);
-    long long lb = attributesToMillis(fechaGetAnio(b),fechaGetMes(b),fechaGetDia(b),0,0,0,0);
-    long long x = la-lb;
-    return x < 0 ? -1 : x > 0 ? 1 : 0;
+    return 0;
 }
 
 string fechaToString(Fecha f)
 {
-    return millisToString(f.ts);
+    return "";
 }
 
 bool fechaEsAnioBisiesto(int anio)
 {
-    return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
+    return false;
 }
 
 bool fechaEsAnioBisiesto(Fecha f)
 {
-    int a = fechaGetAnio(f);
-    return fechaEsAnioBisiesto(a);
+    return false;
 }
 
 int fechaDiasEnMes(int m, int a)
 {
-    if(m == 2 && fechaEsAnioBisiesto(a)) return 29;
-    if(m == 2 && !fechaEsAnioBisiesto(a)) return 28;
-    if(m == 4 || m == 6 || m == 9 || m == 11) return 30;
-    return 31;
+    return 0;
 }
 
 int fechaDiasEnMes(Fecha f)
 {
-    return fechaDiasEnMes(fechaGetMes(f), fechaGetAnio(f));
+    return 0;
 }
 
 int fechaDiaDelAnio(Fecha f)
 {
-    int d = fechaGetDia(f);
-    int m = fechaGetMes(f);
-    int a = fechaGetAnio(f);
-
-    int total = d;
-
-    for(int i = 1; i < m; i++)
-    {
-        total += fechaDiasEnMes(i, a);
-    }
-
-    return total;
+    return 0;
 }
 
 bool fechaEsValida(Fecha f)
 {
-    int d = fechaGetDia(f);
-    int m = fechaGetMes(f);
-    int a = fechaGetAnio(f);
-
-    if( d>=1 && d<=fechaDiasEnMes(f) )
-    {
-        if( m>=1 && m<=12)
-        {
-            if( a>=0 )
-            {
-                return true;
-            }
-        }
-    }
-
     return false;
 }
 
 bool fechaEsHoy(Fecha f)
 {
-    Fecha hoy = fecha();
-    return fechaCmp(f,hoy)==0;
+    return false;
 }
 
 // =================
@@ -182,72 +151,65 @@ bool fechaEsHoy(Fecha f)
 
 int fechaGetAnio(Fecha f)
 {
-    return _getYear(f.ts);
+    return 0;
 }
 
 int fechaGetMes(Fecha f)
 {
-    return _getMonth(f.ts);
+    return 0;
 }
 
 int fechaGetDia(Fecha f)
 {
-    return _getDay(f.ts);
+    return 0;
 }
 
 int fechaGetHora(Fecha f)
 {
-    return _getHour(f.ts);
+    return 0;
 }
 
 int fechaGetMinuto(Fecha f)
 {
-    return _getMinute(f.ts);
+    return 0;
 }
 
 int fechaGetSegundo(Fecha f)
 {
-    return _getSecond(f.ts);
+    return 0;
 }
 
 void fechaSetAnio(Fecha& f, int anio)
 {
-    _setYear(f.ts, anio);
 }
 
 void fechaSetMes(Fecha& f, int mes)
 {
-    _setMonth(f.ts, mes);
 }
 
 void fechaSetDia(Fecha& f, int dia)
 {
-    _setDay(f.ts, dia);
 }
 
 void fechaSetHora(Fecha& f, int hora)
 {
-    _setHour(f.ts, hora);
 }
 
 void fechaSetMinuto(Fecha& f, int minuto)
 {
-    _setMinute(f.ts, minuto);
 }
 
 void fechaSetSegundo(Fecha& f, int segundo)
 {
-    _setSecond(f.ts, segundo);
 }
 
 int fechaGetMillis(Fecha& f,int millis)
 {
-    return _getMillis(f.ts);
+    return 0;
 }
 
 void fechaSetMillis(Fecha& f,int millis)
 {
-    _setMillis(f.ts,millis);
 }
 
 #endif  // FECHA_H

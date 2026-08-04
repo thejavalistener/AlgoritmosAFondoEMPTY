@@ -1,54 +1,48 @@
 #ifndef _TQUEUE_TAD_
 #define _TQUEUE_TAD_
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
+
 #include "../../funciones/lists.hpp"
 
 using std::string;
 
-template<typename T>
+template <typename T>
 struct Queue
 {
-   Node<T>* p;
-   Node<T>* q;
-   int size;
 };
 
-template<typename T>
+template <typename T>
 Queue<T> queue()
 {
-   Queue<T> q;
-   q.p = NULL;
-   q.q = NULL;
-   q.size=0;
-   return q;
+    Queue<T> q;
+    return q;
 }
 
-template<typename T>
-T* queueEnqueue(Queue<T>& q,T e)
+template <typename T>
+T* queueEnqueue(Queue<T>& q, T e)
 {
-   q.size++;
-   return &(enqueue<T>(q.p,q.q,e)->info);
+    return NULL;
 }
 
-template<typename T>
+template <typename T>
 T queueDequeue(Queue<T>& q)
 {
-   q.size--;
-   return dequeue(q.p,q.q);
+    T t;
+    return t;
 }
 
-template<typename T>
+template <typename T>
 bool queueIsEmpty(Queue<T> q)
 {
-   return isEmpty(q.p);
+    return false;
 }
 
-template<typename T>
+template <typename T>
 int queueSize(Queue<T> q)
 {
-   return q.size;
+    return 0;
 }
 
 #endif
