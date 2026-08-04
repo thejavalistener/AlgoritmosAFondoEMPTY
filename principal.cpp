@@ -26,23 +26,6 @@ using std::to_string;
 
 int main()
 {
-    // Coll<int> c = coll<int>();
-    // collAdd<int>(c,1,intToString);
-    // collAdd<int>(c,2,intToString);
-    // collAdd<int>(c,3,intToString);
-
-    // collReset<int>(c);
-    // while( collHasNext<int>(c) )
-    // {
-    //     int x = collNext<int>(c,stringToInt);
-    //     cout << x << endl;
-    // }
-
-    // for(int i=0; i<collSize<int>(c); i++)
-    // {
-    //     int x = collGetAt<int>(c,i,stringToInt);
-    //     cout << x << endl;
-    // }
-
+    cout << "Hola Mundo !" << endl;
     return 0;
 }
