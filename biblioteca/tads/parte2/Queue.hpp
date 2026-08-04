@@ -2,6 +2,7 @@
 #define _TQUEUE_TAD_
 
 #include <iostream>
+#include <cassert>
 #include "../../funciones/lists.hpp"
 
 using std::string;

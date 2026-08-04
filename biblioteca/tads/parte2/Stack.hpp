@@ -2,6 +2,7 @@
 #define _TSTACK_TAD_
 
 #include <iostream>
+#include <cassert>
 #include "../../funciones/lists.hpp"
 
 using std::string;
@@ -12,6 +13,9 @@ struct Stack
    Node<T>* p;
    int size;
 };
+
+template<typename T> int stackSize(Stack<T>);
+
 
 template<typename T>
 Stack<T> stack()
@@ -32,6 +36,7 @@ T* stackPush(Stack<T>& st,T e)
 template<typename T>
 T stackPop(Stack<T>& st)
 {
+   assert((stackSize<T>(st)) > 0 && "La pila no puede estar vacia");
    st.size--;
    return pop(st.p);
 }
