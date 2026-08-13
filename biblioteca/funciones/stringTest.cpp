@@ -118,9 +118,6 @@ int main()
     return 0;
 }
 
-
-
-
 void testLength()
 {
     assert(length("hola") == 4);
@@ -201,13 +198,6 @@ void testIntToChar()
     assert(intToChar(9) == '9');
     assert(intToChar(10) == 'A');
     assert(intToChar(15) == 'F');
-}
-
-void testPoww()
-{
-    assert(poww(2, 0) == 1);
-    assert(poww(2, 3) == 8);
-    assert(poww(5, 2) == 25);
 }
 
 void testGetDigit()
@@ -453,4 +443,3 @@ void testCStringToString()
     char c[] = "hola";
     assert(cStringToString(c) == "hola");
 }
-

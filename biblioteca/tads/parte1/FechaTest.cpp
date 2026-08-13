@@ -88,9 +88,6 @@ int main()
     return 0;
 }
 
-
-
-
 Fecha buildFecha()
 {
     Fecha f = fecha(2024, 5, 10, 14, 35);
