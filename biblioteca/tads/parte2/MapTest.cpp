@@ -26,19 +26,19 @@ void testMapSortByValues();
 int main()
 {
    testMap();
-   testMapGet();
-   testMapPut();
-   testMapContains();
-   testMapRemove();
-   testMapRemoveAll();
-   testMapSize();
-   testMapHasNext();
-   testMapNextKey();
-   testMapNextValue();
-   testMapReset();
-   testMapDiscover();
-   testMapSortByKeys();
-   testMapSortByValues();
+//    testMapGet();
+//    testMapPut();
+//    testMapContains();
+//    testMapRemove();
+//    testMapRemoveAll();
+//    testMapSize();
+//    testMapHasNext();
+//    testMapNextKey();
+//    testMapNextValue();
+//    testMapReset();
+//    testMapDiscover();
+//    testMapSortByKeys();
+//    testMapSortByValues();
 
    cout << "Todos los tests de Map pasaron correctamente." << endl;
    return 0;

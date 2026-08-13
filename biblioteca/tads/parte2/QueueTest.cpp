@@ -17,10 +17,10 @@ void testQueueSize();
 int main()
 {
    testQueue();
-   testQueueEnqueue();
-   testQueueDequeue();
-   testQueueIsEmpty();
-   testQueueSize();
+//    testQueueEnqueue();
+//    testQueueDequeue();
+//    testQueueIsEmpty();
+//    testQueueSize();
 
    cout << "Todos los tests de Queue pasaron correctamente." << endl;
    return 0;

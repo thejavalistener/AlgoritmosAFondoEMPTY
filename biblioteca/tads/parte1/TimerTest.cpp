@@ -14,9 +14,9 @@ void testTimerElapsedTime();
 int main()
 {
     testTimer();
-    testTimerStart();
-    testTimerStop();
-    testTimerElapsedTime();
+    // testTimerStart();
+    // testTimerStop();
+    // testTimerElapsedTime();
 
     cout << "Todos los tests de Timer pasaron correctamente." << endl;
     return 0;

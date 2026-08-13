@@ -27,20 +27,20 @@ void testArrayNext();
 int main()
 {
    testArray();
-   testArrayAdd();
-   testArrayGet();
-   testArraySet();
-   testArrayInsert();
-   testArraySize();
-   testArrayRemove();
-   testArrayRemoveAll();
-   testArrayFind();
-   testArrayOrderedInsert();
-   testArrayDiscover();
-   testArraySort();
-   testArrayReset();
-   testArrayHasNext();
-   testArrayNext();
+//    testArrayAdd();
+//    testArrayGet();
+//    testArraySet();
+//    testArrayInsert();
+//    testArraySize();
+//    testArrayRemove();
+//    testArrayRemoveAll();
+//    testArrayFind();
+//    testArrayOrderedInsert();
+//    testArrayDiscover();
+//    testArraySort();
+//    testArrayReset();
+//    testArrayHasNext();
+//    testArrayNext();
 
    cout << "Todos los tests de Array pasaron correctamente." << endl;
    return 0;

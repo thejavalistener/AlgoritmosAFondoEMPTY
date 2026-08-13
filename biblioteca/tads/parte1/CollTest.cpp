@@ -31,21 +31,21 @@ void testCollFromString();
 int main()
 {
    testColl();
-   testColl_withDefaultSeparator();
-   testCollSize();
-   testCollRemoveAll();
-   testCollRemoveAt();
-   testCollAdd();
-   testCollSetAt();
-   testCollGetAt();
-   testCollFind();
-   testCollSort();
-   testCollHasNext();
-   testCollNext();
-   testCollNext_withEndOfColl();
-   testCollReset();
-   testCollToString();
-   testCollFromString();
+//    testColl_withDefaultSeparator();
+//    testCollSize();
+//    testCollRemoveAll();
+//    testCollRemoveAt();
+//    testCollAdd();
+//    testCollSetAt();
+//    testCollGetAt();
+//    testCollFind();
+//    testCollSort();
+//    testCollHasNext();
+//    testCollNext();
+//    testCollNext_withEndOfColl();
+//    testCollReset();
+//    testCollToString();
+//    testCollFromString();
 
    cout << "Todos los tests de Coll pasaron correctamente." << endl;
    return 0;

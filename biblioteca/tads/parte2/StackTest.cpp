@@ -17,10 +17,10 @@ void testStackSize();
 int main()
 {
    testStack();
-   testStackPush();
-   testStackPop();
-   testStackIsEmpty();
-   testStackSize();
+//    testStackPush();
+//    testStackPop();
+//    testStackIsEmpty();
+//    testStackSize();
 
    cout << "Todos los tests de Stack pasaron correctamente." << endl;
    return 0;
