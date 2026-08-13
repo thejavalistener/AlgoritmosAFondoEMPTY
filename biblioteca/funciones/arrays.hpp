@@ -5,12 +5,6 @@
 #include <iostream>
 
 template <typename T>
-int cmpTT(T a, T b)
-{
-    return 0;
-}
-
-template <typename T>
 int add(T arr[], int& len, T e)
 {
     return 0;
