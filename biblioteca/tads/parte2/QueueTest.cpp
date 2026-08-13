@@ -17,10 +17,10 @@ void testQueueSize();
 int main()
 {
    testQueue();
-//    testQueueEnqueue();
-//    testQueueDequeue();
-//    testQueueIsEmpty();
-//    testQueueSize();
+   testQueueEnqueue();
+   testQueueDequeue();
+   testQueueIsEmpty();
+   testQueueSize();
 
    cout << "Todos los tests de Queue pasaron correctamente." << endl;
    return 0;
@@ -41,9 +41,8 @@ void testQueue()
 {
    Queue<int> q = queue<int>();
 
-   assert(q.p == NULL);
-   assert(q.q == NULL);
-   assert(q.size == 0);
+   assert(queueIsEmpty<int>(q));
+   assert(queueSize<int>(q) == 0);
 }
 
 void testQueueEnqueue()
@@ -57,9 +56,8 @@ void testQueueEnqueue()
    assert(p2 != NULL);
    assert(*p1 == 10);
    assert(*p2 == 20);
-   assert(q.p != NULL);
-   assert(q.q != NULL);
-   assert(q.size == 2);
+   assert(!queueIsEmpty<int>(q));
+   assert(queueSize<int>(q) == 2);
 }
 
 void testQueueDequeue()
@@ -73,9 +71,8 @@ void testQueueDequeue()
    assert(v1 == 10);
    assert(v2 == 20);
    assert(v3 == 30);
-   assert(q.size == 0);
-   assert(q.p == NULL);
-   assert(q.q == NULL);
+   assert(queueSize<int>(q) == 0);
+   assert(queueIsEmpty<int>(q));
 }
 
 void testQueueIsEmpty()
@@ -92,4 +89,3 @@ void testQueueSize()
    Queue<int> q = buildQueue();
    assert(queueSize<int>(q) == 3);
 }
-

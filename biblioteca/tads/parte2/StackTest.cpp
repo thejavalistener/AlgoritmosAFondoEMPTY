@@ -17,10 +17,10 @@ void testStackSize();
 int main()
 {
    testStack();
-//    testStackPush();
-//    testStackPop();
-//    testStackIsEmpty();
-//    testStackSize();
+   testStackPush();
+   testStackPop();
+   testStackIsEmpty();
+   testStackSize();
 
    cout << "Todos los tests de Stack pasaron correctamente." << endl;
    return 0;
@@ -41,8 +41,8 @@ void testStack()
 {
    Stack<int> st = stack<int>();
 
-   assert(st.p == NULL);
-   assert(st.size == 0);
+   assert(stackIsEmpty<int>(st));
+   assert(stackSize<int>(st) == 0);
 }
 
 void testStackPush()
@@ -56,9 +56,10 @@ void testStackPush()
    assert(p2 != NULL);
    assert(*p1 == 10);
    assert(*p2 == 20);
-   assert(st.p != NULL);
-   assert(st.size == 2);
-   assert(st.p->info == 20);
+   assert(!stackIsEmpty<int>(st));
+   assert(stackSize<int>(st) == 2);
+   assert(stackPop<int>(st) == 20);
+   assert(stackSize<int>(st) == 1);
 }
 
 void testStackPop()
@@ -72,8 +73,8 @@ void testStackPop()
    assert(v1 == 30);
    assert(v2 == 20);
    assert(v3 == 10);
-   assert(st.size == 0);
-   assert(st.p == NULL);
+   assert(stackSize<int>(st) == 0);
+   assert(stackIsEmpty<int>(st));
 }
 
 void testStackIsEmpty()
@@ -90,4 +91,3 @@ void testStackSize()
    Stack<int> st = buildStack();
    assert(stackSize<int>(st) == 3);
 }
-

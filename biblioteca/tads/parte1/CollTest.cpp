@@ -31,21 +31,21 @@ void testCollFromString();
 int main()
 {
    testColl();
-//    testColl_withDefaultSeparator();
-//    testCollSize();
-//    testCollRemoveAll();
-//    testCollRemoveAt();
-//    testCollAdd();
-//    testCollSetAt();
-//    testCollGetAt();
-//    testCollFind();
-//    testCollSort();
-//    testCollHasNext();
-//    testCollNext();
-//    testCollNext_withEndOfColl();
-//    testCollReset();
-//    testCollToString();
-//    testCollFromString();
+   testColl_withDefaultSeparator();
+   testCollSize();
+   testCollRemoveAll();
+   testCollRemoveAt();
+   testCollAdd();
+   testCollSetAt();
+   testCollGetAt();
+   testCollFind();
+   testCollSort();
+   testCollHasNext();
+   testCollNext();
+   testCollNext_withEndOfColl();
+   testCollReset();
+   testCollToString();
+   testCollFromString();
 
    cout << "Todos los tests de Coll pasaron correctamente." << endl;
    return 0;
@@ -82,18 +82,18 @@ void testColl()
 {
    Coll<int> c = coll<int>(',');
 
-   assert(c.sep == ',');
-   assert(c.s == "");
-   assert(c.curr == 0);
+   assert(collSize<int>(c) == 0);
+   assert(!collHasNext<int>(c));
+   assert(collToString<int>(c) == ",");
 }
 
 void testColl_withDefaultSeparator()
 {
    Coll<int> c = coll<int>();
 
-   assert(c.sep == '|');
-   assert(c.s == "");
-   assert(c.curr == 0);
+   assert(collSize<int>(c) == 0);
+   assert(!collHasNext<int>(c));
+   assert(collToString<int>(c) == "|");
 }
 
 void testCollSize()
@@ -109,9 +109,9 @@ void testCollRemoveAll()
 
    collRemoveAll<int>(c);
 
-   assert(c.s == "");
-   assert(c.curr == 0);
    assert(collSize<int>(c) == 0);
+   assert(!collHasNext<int>(c));
+   assert(collToString<int>(c) == ",");
 }
 
 void testCollRemoveAt()
@@ -123,7 +123,7 @@ void testCollRemoveAt()
    assert(collSize<int>(c) == 2);
    assert(collGetAt<int>(c, 0, intFromStringColl) == 10);
    assert(collGetAt<int>(c, 1, intFromStringColl) == 30);
-   assert(c.curr == 0);
+   assert(collHasNext<int>(c));
 }
 
 void testCollAdd()
@@ -135,7 +135,9 @@ void testCollAdd()
 
    assert(p0 == 0);
    assert(p1 == 1);
-   assert(c.s == "10,20");
+    assert(collSize<int>(c) == 2);
+    assert(collGetAt<int>(c, 0, intFromStringColl) == 10);
+    assert(collGetAt<int>(c, 1, intFromStringColl) == 20);
 }
 
 void testCollSetAt()
@@ -188,7 +190,9 @@ void testCollHasNext()
    Coll<int> c = buildIntColl(',');
 
    assert(collHasNext<int>(c));
-   c.curr = 3;
+   collNext<int>(c, intFromStringColl);
+   collNext<int>(c, intFromStringColl);
+   collNext<int>(c, intFromStringColl);
    assert(!collHasNext<int>(c));
 }
 
@@ -196,10 +200,11 @@ void testCollNext()
 {
    Coll<int> c = buildIntColl(',');
 
-   int value = collNext<int>(c, intFromStringColl);
+   int value1 = collNext<int>(c, intFromStringColl);
+   int value2 = collNext<int>(c, intFromStringColl);
 
-   assert(value == 10);
-   assert(c.curr == 1);
+   assert(value1 == 10);
+   assert(value2 == 20);
 }
 
 void testCollNext_withEndOfColl()
@@ -222,17 +227,18 @@ void testCollNext_withEndOfColl()
 void testCollReset()
 {
    Coll<int> c = buildIntColl(',');
-   c.curr = 2;
+   collNext<int>(c, intFromStringColl);
+   collNext<int>(c, intFromStringColl);
 
    collReset<int>(c);
 
-   assert(c.curr == 0);
+   assert(collHasNext<int>(c));
+   assert(collNext<int>(c, intFromStringColl) == 10);
 }
 
 void testCollToString()
 {
    Coll<int> c = buildIntColl(',');
-   c.curr = 1;
 
    assert(collToString<int>(c) == ",10,20,30");
 }
@@ -241,8 +247,9 @@ void testCollFromString()
 {
    Coll<int> c = collFromString<int>(";7;8;9");
 
-   assert(c.sep == ';');
-   assert(c.s == "7;8;9");
-   assert(c.curr == 0);
+   assert(collSize<int>(c) == 3);
+   assert(collGetAt<int>(c, 0, intFromStringColl) == 7);
+   assert(collGetAt<int>(c, 1, intFromStringColl) == 8);
+   assert(collGetAt<int>(c, 2, intFromStringColl) == 9);
+   assert(collToString<int>(c) == ";7;8;9");
 }
-

@@ -27,20 +27,20 @@ void testArrayNext();
 int main()
 {
    testArray();
-//    testArrayAdd();
-//    testArrayGet();
-//    testArraySet();
-//    testArrayInsert();
-//    testArraySize();
-//    testArrayRemove();
-//    testArrayRemoveAll();
-//    testArrayFind();
-//    testArrayOrderedInsert();
-//    testArrayDiscover();
-//    testArraySort();
-//    testArrayReset();
-//    testArrayHasNext();
-//    testArrayNext();
+   testArrayAdd();
+   testArrayGet();
+   testArraySet();
+   testArrayInsert();
+   testArraySize();
+   testArrayRemove();
+   testArrayRemoveAll();
+   testArrayFind();
+   testArrayOrderedInsert();
+   testArrayDiscover();
+   testArraySort();
+   testArrayReset();
+   testArrayHasNext();
+   testArrayNext();
 
    cout << "Todos los tests de Array pasaron correctamente." << endl;
    return 0;
@@ -65,25 +65,8 @@ void testArray()
 {
    Array<int> a = array<int>();
 
-   assert(a.a != NULL);
-   assert(a.len == 0);
-   assert(a.cap == 100);
-   assert(a.curr == 0);
-}
-
-void test_arrayResize()
-{
-   Array<int> a = buildArray();
-   int oldCap = a.cap;
-
-   _arrayResize<int>(a, 200);
-
-   assert(a.cap == 200);
-   assert(a.len == 3);
-   assert(a.cap > oldCap);
-   assert(a.a[0] == 10);
-   assert(a.a[1] == 20);
-   assert(a.a[2] == 30);
+   assert(arraySize<int>(a) == 0);
+   assert(!arrayHasNext<int>(a));
 }
 
 void testArrayAdd()
@@ -95,9 +78,9 @@ void testArrayAdd()
 
    assert(p0 == 0);
    assert(p1 == 1);
-   assert(a.len == 2);
-   assert(a.a[0] == 10);
-   assert(a.a[1] == 20);
+   assert(arraySize<int>(a) == 2);
+   assert(*arrayGet<int>(a, 0) == 10);
+   assert(*arrayGet<int>(a, 1) == 20);
 }
 
 void testArrayGet()
@@ -115,9 +98,9 @@ void testArraySet()
 
    arraySet<int>(a, 1, 99);
 
-   assert(a.a[0] == 10);
-   assert(a.a[1] == 99);
-   assert(a.a[2] == 30);
+   assert(*arrayGet<int>(a, 0) == 10);
+   assert(*arrayGet<int>(a, 1) == 99);
+   assert(*arrayGet<int>(a, 2) == 30);
 }
 
 void testArrayInsert()
@@ -126,11 +109,11 @@ void testArrayInsert()
 
    arrayInsert<int>(a, 15, 1);
 
-   assert(a.len == 4);
-   assert(a.a[0] == 10);
-   assert(a.a[1] == 15);
-   assert(a.a[2] == 20);
-   assert(a.a[3] == 30);
+   assert(arraySize<int>(a) == 4);
+   assert(*arrayGet<int>(a, 0) == 10);
+   assert(*arrayGet<int>(a, 1) == 15);
+   assert(*arrayGet<int>(a, 2) == 20);
+   assert(*arrayGet<int>(a, 3) == 30);
 }
 
 void testArraySize()
@@ -146,20 +129,19 @@ void testArrayRemove()
    int removed = arrayRemove<int>(a, 1);
 
    assert(removed == 20);
-   assert(a.len == 2);
-   assert(a.a[0] == 10);
-   assert(a.a[1] == 30);
+   assert(arraySize<int>(a) == 2);
+   assert(*arrayGet<int>(a, 0) == 10);
+   assert(*arrayGet<int>(a, 1) == 30);
 }
 
 void testArrayRemoveAll()
 {
    Array<int> a = buildArray();
-   a.curr = 2;
 
    arrayRemoveAll<int>(a);
 
-   assert(a.len == 0);
-   assert(a.curr == 0);
+   assert(arraySize<int>(a) == 0);
+   assert(!arrayHasNext<int>(a));
 }
 
 void testArrayFind()
@@ -181,11 +163,11 @@ void testArrayOrderedInsert()
    int p = arrayOrderedInsert<int>(a, 30, cmpIntInt);
 
    assert(p == 2);
-   assert(a.len == 4);
-   assert(a.a[0] == 10);
-   assert(a.a[1] == 20);
-   assert(a.a[2] == 30);
-   assert(a.a[3] == 40);
+   assert(arraySize<int>(a) == 4);
+   assert(*arrayGet<int>(a, 0) == 10);
+   assert(*arrayGet<int>(a, 1) == 20);
+   assert(*arrayGet<int>(a, 2) == 30);
+   assert(*arrayGet<int>(a, 3) == 40);
 }
 
 void testArrayDiscover()
@@ -199,8 +181,8 @@ void testArrayDiscover()
    assert(*p1 == 20);
    assert(p2 != NULL);
    assert(*p2 == 40);
-   assert(a.len == 4);
-   assert(a.a[3] == 40);
+   assert(arraySize<int>(a) == 4);
+   assert(*arrayGet<int>(a, 3) == 40);
 }
 
 void testArraySort()
@@ -213,20 +195,22 @@ void testArraySort()
 
    arraySort<int>(a, cmpIntInt);
 
-   assert(a.a[0] == 10);
-   assert(a.a[1] == 20);
-   assert(a.a[2] == 30);
-   assert(a.a[3] == 40);
+   assert(*arrayGet<int>(a, 0) == 10);
+   assert(*arrayGet<int>(a, 1) == 20);
+   assert(*arrayGet<int>(a, 2) == 30);
+   assert(*arrayGet<int>(a, 3) == 40);
 }
 
 void testArrayReset()
 {
    Array<int> a = buildArray();
-   a.curr = 2;
+   arrayNext<int>(a);
+   arrayNext<int>(a);
 
    arrayReset<int>(a);
 
-   assert(a.curr == 0);
+   assert(arrayHasNext<int>(a));
+   assert(*arrayNext<int>(a) == 10);
 }
 
 void testArrayHasNext()
@@ -234,7 +218,9 @@ void testArrayHasNext()
    Array<int> a = buildArray();
 
    assert(arrayHasNext<int>(a));
-   a.curr = 3;
+   arrayNext<int>(a);
+   arrayNext<int>(a);
+   arrayNext<int>(a);
    assert(!arrayHasNext<int>(a));
 }
 
@@ -246,6 +232,6 @@ void testArrayNext()
 
    assert(p != NULL);
    assert(*p == 10);
-   assert(a.curr == 1);
+   assert(arrayHasNext<int>(a));
+   assert(*arrayNext<int>(a) == 20);
 }
-

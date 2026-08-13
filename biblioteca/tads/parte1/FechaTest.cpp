@@ -49,40 +49,40 @@ void testFechaSetMillis();
 int main()
 {
     testFecha_withTs();
-    // testFecha();
-    // testFecha_withAnioMesDiaHoraMin();
-    // testFecha_withAnioMesDia();
-    // testFechaInMillis();
-    // testFechaAddSegundos();
-    // testFechaAddMinutos();
-    // testFechaAddHoras();
-    // testFechaAddDias();
-    // testFechaDiffMillis();
-    // testFechaDiffDias();
-    // testFechaCmp();
-    // testFechaCmpDiaMesAnio();
-    // testFechaToString();
-    // testFechaEsAnioBisiesto_withAnio();
-    // testFechaEsAnioBisiesto_withFecha();
-    // testFechaDiasEnMes_withMesAnio();
-    // testFechaDiasEnMes_withFecha();
-    // testFechaDiaDelAnio();
-    // testFechaEsValida();
-    // testFechaEsHoy();
-    // testFechaGetAnio();
-    // testFechaGetMes();
-    // testFechaGetDia();
-    // testFechaGetHora();
-    // testFechaGetMinuto();
-    // testFechaGetSegundo();
-    // testFechaSetAnio();
-    // testFechaSetMes();
-    // testFechaSetDia();
-    // testFechaSetHora();
-    // testFechaSetMinuto();
-    // testFechaSetSegundo();
-    // testFechaGetMillis();
-    // testFechaSetMillis();
+    testFecha();
+    testFecha_withAnioMesDiaHoraMin();
+    testFecha_withAnioMesDia();
+    testFechaInMillis();
+    testFechaAddSegundos();
+    testFechaAddMinutos();
+    testFechaAddHoras();
+    testFechaAddDias();
+    testFechaDiffMillis();
+    testFechaDiffDias();
+    testFechaCmp();
+    testFechaCmpDiaMesAnio();
+    testFechaToString();
+    testFechaEsAnioBisiesto_withAnio();
+    testFechaEsAnioBisiesto_withFecha();
+    testFechaDiasEnMes_withMesAnio();
+    testFechaDiasEnMes_withFecha();
+    testFechaDiaDelAnio();
+    testFechaEsValida();
+    testFechaEsHoy();
+    testFechaGetAnio();
+    testFechaGetMes();
+    testFechaGetDia();
+    testFechaGetHora();
+    testFechaGetMinuto();
+    testFechaGetSegundo();
+    testFechaSetAnio();
+    testFechaSetMes();
+    testFechaSetDia();
+    testFechaSetHora();
+    testFechaSetMinuto();
+    testFechaSetSegundo();
+    testFechaGetMillis();
+    testFechaSetMillis();
 
     cout << "Todos los tests de Fecha pasaron correctamente." << endl;
     return 0;
@@ -102,7 +102,8 @@ Fecha buildFecha()
 void testFecha_withTs()
 {
     Fecha f = fecha(1715351720123LL);
-    assert(f.ts == 1715351720123LL);
+    assert(fechaInMillis(f) == 1715351720123LL);
+    assert(fechaCmp(f, fecha(1715351720123LL)) == 0);
 }
 
 void testFecha()
@@ -113,6 +114,7 @@ void testFecha()
     assert(fechaCmp(a, b) <= 0 || fechaCmp(a, b) >= 0);
     assert(fechaInMillis(a) > 0);
     assert(fechaInMillis(b) > 0);
+    assert(fechaCmp(a, fecha(fechaInMillis(a))) == 0);
 }
 
 void testFecha_withAnioMesDiaHoraMin()
@@ -141,7 +143,7 @@ void testFecha_withAnioMesDia()
 void testFechaInMillis()
 {
     Fecha f = fecha(2024, 5, 10, 14, 35);
-    assert(fechaInMillis(f) == f.ts);
+    assert(fechaCmp(f, fecha(fechaInMillis(f))) == 0);
 }
 
 void testFechaAddSegundos()
@@ -230,7 +232,7 @@ void testFechaToString()
     string s = fechaToString(f);
 
     assert(s != "");
-    assert(s == millisToString(fechaInMillis(f)));
+    assert(s == fechaToString(fecha(fechaInMillis(f))));
 }
 
 void testFechaEsAnioBisiesto_withAnio()
@@ -383,4 +385,3 @@ void testFechaSetMillis()
     fechaSetMillis(f, 456);
     assert(fechaGetMillis(f, 0) == 456);
 }
-

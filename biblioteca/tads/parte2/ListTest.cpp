@@ -28,21 +28,21 @@ void testListNext_withEndOfList();
 int main()
 {
     testList();
-    // testListAdd();
-    // testListAddFirst();
-    // testListRemove();
-    // testListRemoveFirst();
-    // testListFind();
-    // testListIsEmpty();
-    // testListSize();
-    // testListFree();
-    // testListDiscover();
-    // testListOrderedInsert();
-    // testListSort();
-    // testListReset();
-    // testListHasNext();
-    // testListNext();
-    // testListNext_withEndOfList();
+    testListAdd();
+    testListAddFirst();
+    testListRemove();
+    testListRemoveFirst();
+    testListFind();
+    testListIsEmpty();
+    testListSize();
+    testListFree();
+    testListDiscover();
+    testListOrderedInsert();
+    testListSort();
+    testListReset();
+    testListHasNext();
+    testListNext();
+    testListNext_withEndOfList();
 
     cout << "Todos los tests de List pasaron correctamente." << endl;
     return 0;
@@ -68,9 +68,9 @@ void testList()
 {
     List<int> lst = list<int>();
 
-    assert(lst.size == 0);
-    assert(lst.p == NULL);
-    assert(lst.curr == NULL);
+    assert(listSize<int>(lst) == 0);
+    assert(listIsEmpty<int>(lst));
+    assert(!listHasNext<int>(lst));
 }
 
 void testListSize()
@@ -90,8 +90,11 @@ void testListAdd()
     assert(p2 != NULL);
     assert(*p1 == 10);
     assert(*p2 == 20);
-    assert(lst.size == 2);
-    assert(lst.curr == lst.p);
+    assert(listSize<int>(lst) == 2);
+
+    listReset<int>(lst);
+    assert(*listNext<int>(lst) == 10);
+    assert(*listNext<int>(lst) == 20);
 }
 
 void testListAddFirst()
@@ -102,8 +105,9 @@ void testListAddFirst()
 
     assert(p != NULL);
     assert(*p == 5);
-    assert(lst.size == 4);
-    assert(lst.p->info == 5);
+    assert(listSize<int>(lst) == 4);
+    listReset<int>(lst);
+    assert(*listNext<int>(lst) == 5);
 }
 
 void testListRemove()
@@ -113,7 +117,7 @@ void testListRemove()
     int removed = listRemove<int, int>(lst, 20, cmpIntInt);
 
     assert(removed == 20);
-    assert(lst.size == 2);
+    assert(listSize<int>(lst) == 2);
     listReset<int>(lst);
     assert(*listNext<int>(lst) == 10);
     assert(*listNext<int>(lst) == 30);
@@ -126,7 +130,7 @@ void testListRemoveFirst()
     int removed = listRemoveFirst<int>(lst);
 
     assert(removed == 10);
-    assert(lst.size == 2);
+    assert(listSize<int>(lst) == 2);
     listReset<int>(lst);
     assert(*listNext<int>(lst) == 20);
     assert(*listNext<int>(lst) == 30);
@@ -160,9 +164,9 @@ void testListFree()
 
     listFree<int>(lst);
 
-    assert(lst.size == 0);
-    assert(lst.p == NULL);
-    assert(lst.curr == NULL);
+    assert(listSize<int>(lst) == 0);
+    assert(listIsEmpty<int>(lst));
+    assert(!listHasNext<int>(lst));
 }
 
 void testListDiscover()
@@ -174,7 +178,7 @@ void testListDiscover()
 
     assert(p1 != NULL && *p1 == 20);
     assert(p2 != NULL && *p2 == 40);
-    assert(lst.size == 4);
+    assert(listSize<int>(lst) == 4);
 }
 
 void testListOrderedInsert()
@@ -188,7 +192,7 @@ void testListOrderedInsert()
 
     assert(p != NULL);
     assert(*p == 25);
-    assert(lst.size == 4);
+    assert(listSize<int>(lst) == 4);
     listReset<int>(lst);
     assert(*listNext<int>(lst) == 10);
     assert(*listNext<int>(lst) == 20);
@@ -216,11 +220,13 @@ void testListSort()
 void testListReset()
 {
     List<int> lst = buildList();
-    lst.curr = lst.p->sig;
+    listReset<int>(lst);
+    listNext<int>(lst);
 
     listReset<int>(lst);
 
-    assert(lst.curr == lst.p);
+    assert(listHasNext<int>(lst));
+    assert(*listNext<int>(lst) == 10);
 }
 
 void testListHasNext()
@@ -230,7 +236,9 @@ void testListHasNext()
     listReset<int>(lst);
     assert(listHasNext<int>(lst));
 
-    lst.curr = NULL;
+    listNext<int>(lst);
+    listNext<int>(lst);
+    listNext<int>(lst);
     assert(!listHasNext<int>(lst));
 }
 
@@ -243,8 +251,8 @@ void testListNext()
 
     assert(p != NULL);
     assert(*p == 10);
-    assert(lst.curr != NULL);
-    assert(lst.curr->info == 20);
+    assert(listHasNext<int>(lst));
+    assert(*listNext<int>(lst) == 20);
 }
 
 void testListNext_withEndOfList()
@@ -264,4 +272,3 @@ void testListNext_withEndOfList()
     assert(p4 == NULL);
     assert(endOfList);
 }
-
