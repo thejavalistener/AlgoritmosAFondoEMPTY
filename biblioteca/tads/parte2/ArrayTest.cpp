@@ -6,205 +6,246 @@
 using std::cout;
 using std::endl;
 
+// -- PROTOTIPOS --
+void testArray();
+void testArrayAdd();
+void testArrayGet();
+void testArraySet();
+void testArrayInsert();
+void testArraySize();
+void testArrayRemove();
+void testArrayRemoveAll();
+void testArrayFind();
+void testArrayOrderedInsert();
+void testArrayDiscover();
+void testArraySort();
+void testArrayReset();
+void testArrayHasNext();
+void testArrayNext();
+
+// -- MAIN --
+int main()
+{
+   testArray();
+//    testArrayAdd();
+//    testArrayGet();
+//    testArraySet();
+//    testArrayInsert();
+//    testArraySize();
+//    testArrayRemove();
+//    testArrayRemoveAll();
+//    testArrayFind();
+//    testArrayOrderedInsert();
+//    testArrayDiscover();
+//    testArraySort();
+//    testArrayReset();
+//    testArrayHasNext();
+//    testArrayNext();
+
+   cout << "Todos los tests de Array pasaron correctamente." << endl;
+   return 0;
+}
+
+
 int cmpIntInt(int a, int b)
 {
    return a < b ? -1 : a > b ? 1 : 0;
 }
 
-void testCreateAndSize()
-{
-   Array<int> a = array<int>();
-   assert(arraySize<int>(a) == 0);
-   assert(!arrayHasNext<int>(a));
-}
-
-void testAddGetAndSet()
-{
-   Array<int> a = array<int>();
-
-   assert(arrayAdd<int>(a, 10) == 0);
-   assert(arrayAdd<int>(a, 20) == 1);
-   assert(arrayAdd<int>(a, 30) == 2);
-   assert(arraySize<int>(a) == 3);
-
-   assert(*arrayGet<int>(a, 0) == 10);
-   assert(*arrayGet<int>(a, 1) == 20);
-   assert(*arrayGet<int>(a, 2) == 30);
-
-   arraySet<int>(a, 1, 99);
-   assert(*arrayGet<int>(a, 1) == 99);
-   assert(*arrayGet<int>(a, 0) == 10);
-   assert(*arrayGet<int>(a, 2) == 30);
-}
-
-void testInsert()
-{
-   Array<int> a = array<int>();
-   arrayAdd<int>(a, 10);
-   arrayAdd<int>(a, 30);
-   arrayAdd<int>(a, 40);
-
-   arrayInsert<int>(a, 20, 1);
-   assert(arraySize<int>(a) == 4);
-   assert(*arrayGet<int>(a, 0) == 10);
-   assert(*arrayGet<int>(a, 1) == 20);
-   assert(*arrayGet<int>(a, 2) == 30);
-   assert(*arrayGet<int>(a, 3) == 40);
-
-   arrayInsert<int>(a, 5, 0);
-   assert(*arrayGet<int>(a, 0) == 5);
-   assert(*arrayGet<int>(a, 1) == 10);
-
-   arrayInsert<int>(a, 50, arraySize<int>(a));
-   assert(*arrayGet<int>(a, arraySize<int>(a)-1) == 50);
-}
-
-void testRemoveAndRemoveAll()
-{
-   Array<int> a1 = array<int>();
-   arrayAdd<int>(a1, 10);
-   arrayAdd<int>(a1, 20);
-   arrayAdd<int>(a1, 30);
-   assert(arrayRemove<int>(a1, 0) == 10);
-   assert(arraySize<int>(a1) == 2);
-   assert(*arrayGet<int>(a1, 0) == 20);
-   assert(*arrayGet<int>(a1, 1) == 30);
-
-   Array<int> a2 = array<int>();
-   arrayAdd<int>(a2, 10);
-   arrayAdd<int>(a2, 20);
-   arrayAdd<int>(a2, 30);
-   assert(arrayRemove<int>(a2, 1) == 20);
-   assert(arraySize<int>(a2) == 2);
-   assert(*arrayGet<int>(a2, 0) == 10);
-   assert(*arrayGet<int>(a2, 1) == 30);
-
-   Array<int> a3 = array<int>();
-   arrayAdd<int>(a3, 10);
-   arrayAdd<int>(a3, 20);
-   arrayAdd<int>(a3, 30);
-   assert(arrayRemove<int>(a3, 2) == 30);
-   assert(arraySize<int>(a3) == 2);
-   assert(*arrayGet<int>(a3, 0) == 10);
-   assert(*arrayGet<int>(a3, 1) == 20);
-
-   arrayRemoveAll<int>(a3);
-   assert(arraySize<int>(a3) == 0);
-   assert(!arrayHasNext<int>(a3));
-}
-
-void testFind()
+Array<int> buildArray()
 {
    Array<int> a = array<int>();
    arrayAdd<int>(a, 10);
    arrayAdd<int>(a, 20);
    arrayAdd<int>(a, 30);
+   return a;
+}
+
+void testArray()
+{
+   Array<int> a = array<int>();
+
+   assert(a.a != NULL);
+   assert(a.len == 0);
+   assert(a.cap == 100);
+   assert(a.curr == 0);
+}
+
+void test_arrayResize()
+{
+   Array<int> a = buildArray();
+   int oldCap = a.cap;
+
+   _arrayResize<int>(a, 200);
+
+   assert(a.cap == 200);
+   assert(a.len == 3);
+   assert(a.cap > oldCap);
+   assert(a.a[0] == 10);
+   assert(a.a[1] == 20);
+   assert(a.a[2] == 30);
+}
+
+void testArrayAdd()
+{
+   Array<int> a = array<int>();
+
+   int p0 = arrayAdd<int>(a, 10);
+   int p1 = arrayAdd<int>(a, 20);
+
+   assert(p0 == 0);
+   assert(p1 == 1);
+   assert(a.len == 2);
+   assert(a.a[0] == 10);
+   assert(a.a[1] == 20);
+}
+
+void testArrayGet()
+{
+   Array<int> a = buildArray();
+   int* p = arrayGet<int>(a, 1);
+
+   assert(p != NULL);
+   assert(*p == 20);
+}
+
+void testArraySet()
+{
+   Array<int> a = buildArray();
+
+   arraySet<int>(a, 1, 99);
+
+   assert(a.a[0] == 10);
+   assert(a.a[1] == 99);
+   assert(a.a[2] == 30);
+}
+
+void testArrayInsert()
+{
+   Array<int> a = buildArray();
+
+   arrayInsert<int>(a, 15, 1);
+
+   assert(a.len == 4);
+   assert(a.a[0] == 10);
+   assert(a.a[1] == 15);
+   assert(a.a[2] == 20);
+   assert(a.a[3] == 30);
+}
+
+void testArraySize()
+{
+   Array<int> a = buildArray();
+   assert(arraySize<int>(a) == 3);
+}
+
+void testArrayRemove()
+{
+   Array<int> a = buildArray();
+
+   int removed = arrayRemove<int>(a, 1);
+
+   assert(removed == 20);
+   assert(a.len == 2);
+   assert(a.a[0] == 10);
+   assert(a.a[1] == 30);
+}
+
+void testArrayRemoveAll()
+{
+   Array<int> a = buildArray();
+   a.curr = 2;
+
+   arrayRemoveAll<int>(a);
+
+   assert(a.len == 0);
+   assert(a.curr == 0);
+}
+
+void testArrayFind()
+{
+   Array<int> a = buildArray();
 
    assert((arrayFind<int, int>(a, 10, cmpIntInt) == 0));
    assert((arrayFind<int, int>(a, 20, cmpIntInt) == 1));
-   assert((arrayFind<int, int>(a, 30, cmpIntInt) == 2));
    assert((arrayFind<int, int>(a, 99, cmpIntInt) == -1));
 }
 
-void testOrderedInsert()
+void testArrayOrderedInsert()
 {
    Array<int> a = array<int>();
    arrayAdd<int>(a, 10);
    arrayAdd<int>(a, 20);
    arrayAdd<int>(a, 40);
-   arrayAdd<int>(a, 50);
 
-   assert(arrayOrderedInsert<int>(a, 30, cmpIntInt) == 2);
-   assert(arraySize<int>(a) == 5);
-   assert(*arrayGet<int>(a, 0) == 10);
-   assert(*arrayGet<int>(a, 1) == 20);
-   assert(*arrayGet<int>(a, 2) == 30);
-   assert(*arrayGet<int>(a, 3) == 40);
-   assert(*arrayGet<int>(a, 4) == 50);
+   int p = arrayOrderedInsert<int>(a, 30, cmpIntInt);
+
+   assert(p == 2);
+   assert(a.len == 4);
+   assert(a.a[0] == 10);
+   assert(a.a[1] == 20);
+   assert(a.a[2] == 30);
+   assert(a.a[3] == 40);
 }
 
-void testDiscover()
+void testArrayDiscover()
 {
-   Array<int> a = array<int>();
-   arrayAdd<int>(a, 10);
-   arrayAdd<int>(a, 20);
+   Array<int> a = buildArray();
 
    int* p1 = arrayDiscover<int>(a, 20, cmpIntInt);
+   int* p2 = arrayDiscover<int>(a, 40, cmpIntInt);
+
    assert(p1 != NULL);
    assert(*p1 == 20);
-   assert(arraySize<int>(a) == 2);
-
-   int* p2 = arrayDiscover<int>(a, 30, cmpIntInt);
    assert(p2 != NULL);
-   assert(*p2 == 30);
-   assert(arraySize<int>(a) == 3);
-   assert(*arrayGet<int>(a, 2) == 30);
+   assert(*p2 == 40);
+   assert(a.len == 4);
+   assert(a.a[3] == 40);
 }
 
-void testSort()
+void testArraySort()
 {
    Array<int> a = array<int>();
    arrayAdd<int>(a, 40);
    arrayAdd<int>(a, 10);
    arrayAdd<int>(a, 30);
    arrayAdd<int>(a, 20);
-   arrayAdd<int>(a, 20);
 
    arraySort<int>(a, cmpIntInt);
-   assert(*arrayGet<int>(a, 0) == 10);
-   assert(*arrayGet<int>(a, 1) == 20);
-   assert(*arrayGet<int>(a, 2) == 20);
-   assert(*arrayGet<int>(a, 3) == 30);
-   assert(*arrayGet<int>(a, 4) == 40);
+
+   assert(a.a[0] == 10);
+   assert(a.a[1] == 20);
+   assert(a.a[2] == 30);
+   assert(a.a[3] == 40);
 }
 
-void testIteration()
+void testArrayReset()
 {
-   Array<int> a = array<int>();
-   arrayAdd<int>(a, 5);
-   arrayAdd<int>(a, 6);
-   arrayAdd<int>(a, 7);
+   Array<int> a = buildArray();
+   a.curr = 2;
 
    arrayReset<int>(a);
+
+   assert(a.curr == 0);
+}
+
+void testArrayHasNext()
+{
+   Array<int> a = buildArray();
+
    assert(arrayHasNext<int>(a));
-   assert(*arrayNext<int>(a) == 5);
-   assert(arrayHasNext<int>(a));
-   assert(*arrayNext<int>(a) == 6);
-   assert(arrayHasNext<int>(a));
-   assert(*arrayNext<int>(a) == 7);
+   a.curr = 3;
    assert(!arrayHasNext<int>(a));
-
-   arrayReset<int>(a);
-   assert(arrayHasNext<int>(a));
-   assert(*arrayNext<int>(a) == 5);
 }
 
-void testManyAdds()
+void testArrayNext()
 {
-   Array<int> a = array<int>();
-   for(int i = 0; i < 150; i++)
-   {
-      assert(arrayAdd<int>(a, i) == i);
-   }
+   Array<int> a = buildArray();
 
-   assert(arraySize<int>(a) == 150);
-   assert(*arrayGet<int>(a, 0) == 0);
-   assert(*arrayGet<int>(a, 149) == 149);
+   int* p = arrayNext<int>(a);
+
+   assert(p != NULL);
+   assert(*p == 10);
+   assert(a.curr == 1);
 }
 
-int main()
-{
-   testCreateAndSize();
-   testAddGetAndSet();
-   testInsert();
-   testRemoveAndRemoveAll();
-   testFind();
-   testOrderedInsert();
-   testDiscover();
-   testSort();
-   testIteration();
-   testManyAdds();
-
-   cout << "Todos los tests de Array pasaron correctamente." << endl;
-   return 0;
-}

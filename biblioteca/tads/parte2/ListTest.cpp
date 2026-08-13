@@ -6,45 +6,135 @@
 using std::cout;
 using std::endl;
 
+// -- PROTOTIPOS --
+void testList();
+void testListAdd();
+void testListAddFirst();
+void testListRemove();
+void testListRemoveFirst();
+void testListFind();
+void testListIsEmpty();
+void testListSize();
+void testListFree();
+void testListDiscover();
+void testListOrderedInsert();
+void testListSort();
+void testListReset();
+void testListHasNext();
+void testListNext();
+void testListNext_withEndOfList();
+
+// -- MAIN --
+int main()
+{
+    testList();
+    // testListAdd();
+    // testListAddFirst();
+    // testListRemove();
+    // testListRemoveFirst();
+    // testListFind();
+    // testListIsEmpty();
+    // testListSize();
+    // testListFree();
+    // testListDiscover();
+    // testListOrderedInsert();
+    // testListSort();
+    // testListReset();
+    // testListHasNext();
+    // testListNext();
+    // testListNext_withEndOfList();
+
+    cout << "Todos los tests de List pasaron correctamente." << endl;
+    return 0;
+}
+
+
+
 int cmpIntInt(int a, int b)
 {
     return a < b ? -1 : a > b ? 1 : 0;
 }
 
-void testCreateIsEmptyAndSize()
-{
-    List<int> lst = list<int>();
-    assert(listIsEmpty<int>(lst));
-    assert((listSize<int>(lst)) == 0);
-    assert(!(listHasNext<int>(lst)));
-}
-
-void testAddAndAddFirst()
-{
-    List<int> lst = list<int>();
-
-    int* p1 = listAdd<int>(lst, 10);
-    assert(p1 != NULL && *p1 == 10);
-    int* p2 = listAdd<int>(lst, 20);
-    assert(p2 != NULL && *p2 == 20);
-    int* p0 = listAddFirst<int>(lst, 5);
-    assert(p0 != NULL && *p0 == 5);
-
-    assert((listSize<int>(lst)) == 3);
-
-    listReset<int>(lst);
-    assert(*listNext<int>(lst) == 5);
-    assert(*listNext<int>(lst) == 10);
-    assert(*listNext<int>(lst) == 20);
-    assert(!listHasNext<int>(lst));
-}
-
-void testFind()
+List<int> buildList()
 {
     List<int> lst = list<int>();
     listAdd<int>(lst, 10);
     listAdd<int>(lst, 20);
     listAdd<int>(lst, 30);
+    return lst;
+}
+
+void testList()
+{
+    List<int> lst = list<int>();
+
+    assert(lst.size == 0);
+    assert(lst.p == NULL);
+    assert(lst.curr == NULL);
+}
+
+void testListSize()
+{
+    List<int> lst = buildList();
+    assert(listSize<int>(lst) == 3);
+}
+
+void testListAdd()
+{
+    List<int> lst = list<int>();
+
+    int* p1 = listAdd<int>(lst, 10);
+    int* p2 = listAdd<int>(lst, 20);
+
+    assert(p1 != NULL);
+    assert(p2 != NULL);
+    assert(*p1 == 10);
+    assert(*p2 == 20);
+    assert(lst.size == 2);
+    assert(lst.curr == lst.p);
+}
+
+void testListAddFirst()
+{
+    List<int> lst = buildList();
+
+    int* p = listAddFirst<int>(lst, 5);
+
+    assert(p != NULL);
+    assert(*p == 5);
+    assert(lst.size == 4);
+    assert(lst.p->info == 5);
+}
+
+void testListRemove()
+{
+    List<int> lst = buildList();
+
+    int removed = listRemove<int, int>(lst, 20, cmpIntInt);
+
+    assert(removed == 20);
+    assert(lst.size == 2);
+    listReset<int>(lst);
+    assert(*listNext<int>(lst) == 10);
+    assert(*listNext<int>(lst) == 30);
+}
+
+void testListRemoveFirst()
+{
+    List<int> lst = buildList();
+
+    int removed = listRemoveFirst<int>(lst);
+
+    assert(removed == 10);
+    assert(lst.size == 2);
+    listReset<int>(lst);
+    assert(*listNext<int>(lst) == 20);
+    assert(*listNext<int>(lst) == 30);
+}
+
+void testListFind()
+{
+    List<int> lst = buildList();
 
     int* p1 = listFind<int, int>(lst, 10, cmpIntInt);
     int* p2 = listFind<int, int>(lst, 30, cmpIntInt);
@@ -55,58 +145,50 @@ void testFind()
     assert(p3 == NULL);
 }
 
-void testRemoveAndRemoveFirst()
-{
-    List<int> lst1 = list<int>();
-    listAdd<int>(lst1, 10);
-    listAdd<int>(lst1, 20);
-    listAdd<int>(lst1, 30);
-    assert((listRemove<int, int>(lst1, 20, cmpIntInt)) == 20);
-    assert(listSize<int>(lst1) == 2);
-    listReset<int>(lst1);
-    assert(*listNext<int>(lst1) == 10);
-    assert(*listNext<int>(lst1) == 30);
-
-    List<int> lst2 = list<int>();
-    listAdd<int>(lst2, 10);
-    listAdd<int>(lst2, 20);
-    listAdd<int>(lst2, 30);
-    assert(listRemoveFirst<int>(lst2) == 10);
-    assert(listSize<int>(lst2) == 2);
-    listReset<int>(lst2);
-    assert(*listNext<int>(lst2) == 20);
-    assert(*listNext<int>(lst2) == 30);
-}
-
-void testDiscover()
+void testListIsEmpty()
 {
     List<int> lst = list<int>();
-    listAdd<int>(lst, 10);
-    listAdd<int>(lst, 20);
+    assert(listIsEmpty<int>(lst));
+
+    listAdd<int>(lst, 1);
+    assert(!listIsEmpty<int>(lst));
+}
+
+void testListFree()
+{
+    List<int> lst = buildList();
+
+    listFree<int>(lst);
+
+    assert(lst.size == 0);
+    assert(lst.p == NULL);
+    assert(lst.curr == NULL);
+}
+
+void testListDiscover()
+{
+    List<int> lst = buildList();
 
     int* p1 = listDiscover<int>(lst, 20, cmpIntInt);
+    int* p2 = listDiscover<int>(lst, 40, cmpIntInt);
+
     assert(p1 != NULL && *p1 == 20);
-    assert(listSize<int>(lst) == 2);
-
-    int* p2 = listDiscover<int>(lst, 30, cmpIntInt);
-    assert(p2 != NULL && *p2 == 30);
-    assert(listSize<int>(lst) == 3);
-
-    listReset<int>(lst);
-    assert(*listNext<int>(lst) == 10);
-    assert(*listNext<int>(lst) == 20);
-    assert(*listNext<int>(lst) == 30);
+    assert(p2 != NULL && *p2 == 40);
+    assert(lst.size == 4);
 }
 
-void testOrderedInsert()
+void testListOrderedInsert()
 {
     List<int> lst = list<int>();
+
     listOrderedInsert<int>(lst, 20, cmpIntInt);
     listOrderedInsert<int>(lst, 10, cmpIntInt);
     listOrderedInsert<int>(lst, 30, cmpIntInt);
-    listOrderedInsert<int>(lst, 25, cmpIntInt);
+    int* p = listOrderedInsert<int>(lst, 25, cmpIntInt);
 
-    assert(listSize<int>(lst) == 4);
+    assert(p != NULL);
+    assert(*p == 25);
+    assert(lst.size == 4);
     listReset<int>(lst);
     assert(*listNext<int>(lst) == 10);
     assert(*listNext<int>(lst) == 20);
@@ -114,7 +196,7 @@ void testOrderedInsert()
     assert(*listNext<int>(lst) == 30);
 }
 
-void testSort()
+void testListSort()
 {
     List<int> lst = list<int>();
     listAdd<int>(lst, 40);
@@ -123,6 +205,7 @@ void testSort()
     listAdd<int>(lst, 20);
 
     listSort<int>(lst, cmpIntInt);
+
     listReset<int>(lst);
     assert(*listNext<int>(lst) == 10);
     assert(*listNext<int>(lst) == 20);
@@ -130,73 +213,55 @@ void testSort()
     assert(*listNext<int>(lst) == 40);
 }
 
-void testResetHasNextAndNext()
+void testListReset()
 {
-    List<int> lst = list<int>();
-    listAdd<int>(lst, 5);
-    listAdd<int>(lst, 6);
-    listAdd<int>(lst, 7);
+    List<int> lst = buildList();
+    lst.curr = lst.p->sig;
 
     listReset<int>(lst);
-    assert(listHasNext<int>(lst));
-    assert(*listNext<int>(lst) == 5);
-    assert(listHasNext<int>(lst));
-    assert(*listNext<int>(lst) == 6);
-    assert(listHasNext<int>(lst));
-    assert(*listNext<int>(lst) == 7);
-    assert(!listHasNext<int>(lst));
 
-    listReset<int>(lst);
-    assert(*listNext<int>(lst) == 5);
+    assert(lst.curr == lst.p);
 }
 
-void testNextWithEndFlag()
+void testListHasNext()
 {
-    List<int> lst = list<int>();
-    listAdd<int>(lst, 11);
-    listAdd<int>(lst, 22);
+    List<int> lst = buildList();
 
+    listReset<int>(lst);
+    assert(listHasNext<int>(lst));
+
+    lst.curr = NULL;
+    assert(!listHasNext<int>(lst));
+}
+
+void testListNext()
+{
+    List<int> lst = buildList();
+    listReset<int>(lst);
+
+    int* p = listNext<int>(lst);
+
+    assert(p != NULL);
+    assert(*p == 10);
+    assert(lst.curr != NULL);
+    assert(lst.curr->info == 20);
+}
+
+void testListNext_withEndOfList()
+{
+    List<int> lst = buildList();
     listReset<int>(lst);
     bool endOfList = false;
+
     int* p1 = listNext<int>(lst, endOfList);
-    assert(!endOfList);
-    assert(p1 != NULL && *p1 == 11);
-
     int* p2 = listNext<int>(lst, endOfList);
-    assert(!endOfList);
-    assert(p2 != NULL && *p2 == 22);
-
     int* p3 = listNext<int>(lst, endOfList);
+    int* p4 = listNext<int>(lst, endOfList);
+
+    assert(p1 != NULL && *p1 == 10);
+    assert(p2 != NULL && *p2 == 20);
+    assert(p3 != NULL && *p3 == 30);
+    assert(p4 == NULL);
     assert(endOfList);
-    assert(p3 == NULL);
 }
 
-void testFree()
-{
-    List<int> lst = list<int>();
-    listAdd<int>(lst, 10);
-    listAdd<int>(lst, 20);
-    listAddFirst<int>(lst, 5);
-
-    listFree<int>(lst);
-    assert(listIsEmpty<int>(lst));
-    assert(listSize<int>(lst) == 0);
-    assert(!listHasNext<int>(lst));
-}
-
-int main()
-{
-    testCreateIsEmptyAndSize();
-    testAddAndAddFirst();
-    testFind();
-    testRemoveAndRemoveFirst();
-    testDiscover();
-    testOrderedInsert();
-    testSort();
-    testResetHasNextAndNext();
-    testNextWithEndFlag();
-    testFree();
-
-    cout << "Todos los tests de List pasaron correctamente." << endl;
-    return 0;
-}

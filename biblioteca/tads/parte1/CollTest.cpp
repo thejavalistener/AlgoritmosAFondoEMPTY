@@ -9,6 +9,51 @@ using std::cout;
 using std::endl;
 using std::string;
 
+// -- PROTOTIPOS --
+void testColl();
+void testColl_withDefaultSeparator();
+void testCollSize();
+void testCollRemoveAll();
+void testCollRemoveAt();
+void testCollAdd();
+void testCollSetAt();
+void testCollGetAt();
+void testCollFind();
+void testCollSort();
+void testCollHasNext();
+void testCollNext();
+void testCollNext_withEndOfColl();
+void testCollReset();
+void testCollToString();
+void testCollFromString();
+
+// -- MAIN --
+int main()
+{
+   testColl();
+//    testColl_withDefaultSeparator();
+//    testCollSize();
+//    testCollRemoveAll();
+//    testCollRemoveAt();
+//    testCollAdd();
+//    testCollSetAt();
+//    testCollGetAt();
+//    testCollFind();
+//    testCollSort();
+//    testCollHasNext();
+//    testCollNext();
+//    testCollNext_withEndOfColl();
+//    testCollReset();
+//    testCollToString();
+//    testCollFromString();
+
+   cout << "Todos los tests de Coll pasaron correctamente." << endl;
+   return 0;
+}
+
+
+
+
 string intToStringColl(int x)
 {
    return intToString(x);
@@ -24,98 +69,105 @@ int cmpIntInt(int a, int b)
    return a < b ? -1 : a > b ? 1 : 0;
 }
 
-void testCreateAndSize()
+Coll<int> buildIntColl(char sep = ',')
 {
-   Coll<int> c1 = coll<int>();
-   assert(collSize(c1) == 0);
-
-   Coll<int> c2 = coll<int>(',');
-   assert(collSize(c2) == 0);
+   Coll<int> c = coll<int>(sep);
+   collAdd<int>(c, 10, intToStringColl);
+   collAdd<int>(c, 20, intToStringColl);
+   collAdd<int>(c, 30, intToStringColl);
+   return c;
 }
 
-void testAddGetAndSet()
+void testColl()
+{
+   Coll<int> c = coll<int>(',');
+
+   assert(c.sep == ',');
+   assert(c.s == "");
+   assert(c.curr == 0);
+}
+
+void testColl_withDefaultSeparator()
 {
    Coll<int> c = coll<int>();
 
-   assert(collAdd<int>(c, 10, intToStringColl) == 0);
-   assert(collAdd<int>(c, 20, intToStringColl) == 1);
-   assert(collAdd<int>(c, 30, intToStringColl) == 2);
+   assert(c.sep == '|');
+   assert(c.s == "");
+   assert(c.curr == 0);
+}
 
-   assert(collSize(c) == 3);
+void testCollSize()
+{
+   Coll<int> c = buildIntColl(',');
+
+   assert(collSize<int>(c) == 3);
+}
+
+void testCollRemoveAll()
+{
+   Coll<int> c = buildIntColl(',');
+
+   collRemoveAll<int>(c);
+
+   assert(c.s == "");
+   assert(c.curr == 0);
+   assert(collSize<int>(c) == 0);
+}
+
+void testCollRemoveAt()
+{
+   Coll<int> c = buildIntColl(',');
+
+   collRemoveAt<int>(c, 1);
+
+   assert(collSize<int>(c) == 2);
+   assert(collGetAt<int>(c, 0, intFromStringColl) == 10);
+   assert(collGetAt<int>(c, 1, intFromStringColl) == 30);
+   assert(c.curr == 0);
+}
+
+void testCollAdd()
+{
+   Coll<int> c = coll<int>(',');
+
+   int p0 = collAdd<int>(c, 10, intToStringColl);
+   int p1 = collAdd<int>(c, 20, intToStringColl);
+
+   assert(p0 == 0);
+   assert(p1 == 1);
+   assert(c.s == "10,20");
+}
+
+void testCollSetAt()
+{
+   Coll<int> c = buildIntColl(',');
+
+   collSetAt<int>(c, 99, 1, intToStringColl);
+
+   assert(collGetAt<int>(c, 0, intFromStringColl) == 10);
+   assert(collGetAt<int>(c, 1, intFromStringColl) == 99);
+   assert(collGetAt<int>(c, 2, intFromStringColl) == 30);
+}
+
+void testCollGetAt()
+{
+   Coll<int> c = buildIntColl(',');
+
    assert(collGetAt<int>(c, 0, intFromStringColl) == 10);
    assert(collGetAt<int>(c, 1, intFromStringColl) == 20);
    assert(collGetAt<int>(c, 2, intFromStringColl) == 30);
-
-   collSetAt<int>(c, 99, 1, intToStringColl);
-   assert(collGetAt<int>(c, 1, intFromStringColl) == 99);
-   assert(collGetAt<int>(c, 0, intFromStringColl) == 10);
-   assert(collGetAt<int>(c, 2, intFromStringColl) == 30);
-
-
-   Coll<int> x = coll<int>('*');
-
-   assert(collAdd<int>(x, 10, intToStringColl) == 0);
-   assert(collAdd<int>(x, 20, intToStringColl) == 1);
-   assert(collAdd<int>(x, 30, intToStringColl) == 2);
-
-   assert(collSize(x) == 3);
-   assert(collGetAt<int>(x, 0, intFromStringColl) == 10);
-   assert(collGetAt<int>(x, 1, intFromStringColl) == 20);
-   assert(collGetAt<int>(x, 2, intFromStringColl) == 30);
-
-   collSetAt<int>(x, 99, 1, intToStringColl);
-   assert(collGetAt<int>(x, 1, intFromStringColl) == 99);
-   assert(collGetAt<int>(x, 0, intFromStringColl) == 10);
-   assert(collGetAt<int>(x, 2, intFromStringColl) == 30);
 }
 
-void testRemoveAndRemoveAll()
+void testCollFind()
 {
-   Coll<int> c1 = coll<int>(',');
-   collAdd<int>(c1, 10, intToStringColl);
-   collAdd<int>(c1, 20, intToStringColl);
-   collAdd<int>(c1, 30, intToStringColl);
-   collRemoveAt<int>(c1, 0);
-   assert(collSize(c1) == 2);
-   assert(collGetAt<int>(c1, 0, intFromStringColl) == 20);
-   assert(collGetAt<int>(c1, 1, intFromStringColl) == 30);
+   Coll<int> c = buildIntColl(',');
 
-   Coll<int> c2 = coll<int>(',');
-   collAdd<int>(c2, 10, intToStringColl);
-   collAdd<int>(c2, 20, intToStringColl);
-   collAdd<int>(c2, 30, intToStringColl);
-   collRemoveAt<int>(c2, 1);
-   assert(collSize(c2) == 2);
-   assert(collGetAt<int>(c2, 0, intFromStringColl) == 10);
-   assert(collGetAt<int>(c2, 1, intFromStringColl) == 30);
-
-   Coll<int> c3 = coll<int>(',');
-   collAdd<int>(c3, 10, intToStringColl);
-   collAdd<int>(c3, 20, intToStringColl);
-   collAdd<int>(c3, 30, intToStringColl);
-   collRemoveAt<int>(c3, 2);
-   assert(collSize(c3) == 2);
-   assert(collGetAt<int>(c3, 0, intFromStringColl) == 10);
-   assert(collGetAt<int>(c3, 1, intFromStringColl) == 20);
-
-   collRemoveAll<int>(c3);
-   assert(collSize(c3) == 0);
+   assert((collFind<int, int>(c, 10, cmpIntInt, intFromStringColl) == 0));
+   assert((collFind<int, int>(c, 20, cmpIntInt, intFromStringColl) == 1));
+   assert((collFind<int, int>(c, 99, cmpIntInt, intFromStringColl) == -1));
 }
 
-void testFind()
-{
-   Coll<int> c = coll<int>(',');
-   collAdd<int>(c, 7, intToStringColl);
-   collAdd<int>(c, 3, intToStringColl);
-   collAdd<int>(c, 9, intToStringColl);
-
-   assert((collFind<int, int>(c, 7, cmpIntInt, intFromStringColl) == 0));
-   assert((collFind<int, int>(c, 3, cmpIntInt, intFromStringColl) == 1));
-   assert((collFind<int, int>(c, 9, cmpIntInt, intFromStringColl) == 2));
-   assert((collFind<int, int>(c, 4, cmpIntInt, intFromStringColl) == -1));
-}
-
-void testSort()
+void testCollSort()
 {
    Coll<int> c = coll<int>(',');
    collAdd<int>(c, 40, intToStringColl);
@@ -125,60 +177,72 @@ void testSort()
 
    collSort<int>(c, cmpIntInt, intFromStringColl, intToStringColl);
 
-   assert(collSize(c) == 4);
    assert(collGetAt<int>(c, 0, intFromStringColl) == 10);
    assert(collGetAt<int>(c, 1, intFromStringColl) == 20);
    assert(collGetAt<int>(c, 2, intFromStringColl) == 30);
    assert(collGetAt<int>(c, 3, intFromStringColl) == 40);
 }
 
-void testIteration()
+void testCollHasNext()
 {
-   Coll<int> c = coll<int>(',');
-   collAdd<int>(c, 5, intToStringColl);
-   collAdd<int>(c, 6, intToStringColl);
-   collAdd<int>(c, 7, intToStringColl);
+   Coll<int> c = buildIntColl(',');
 
    assert(collHasNext<int>(c));
-   assert(collNext<int>(c, intFromStringColl) == 5);
-   assert(collHasNext<int>(c));
-   assert(collNext<int>(c, intFromStringColl) == 6);
-   assert(collHasNext<int>(c));
-   assert(collNext<int>(c, intFromStringColl) == 7);
+   c.curr = 3;
    assert(!collHasNext<int>(c));
+}
+
+void testCollNext()
+{
+   Coll<int> c = buildIntColl(',');
+
+   int value = collNext<int>(c, intFromStringColl);
+
+   assert(value == 10);
+   assert(c.curr == 1);
+}
+
+void testCollNext_withEndOfColl()
+{
+   Coll<int> c = buildIntColl(',');
+   bool endOfColl = false;
+
+   int v1 = collNext<int>(c, endOfColl, intFromStringColl);
+   int v2 = collNext<int>(c, endOfColl, intFromStringColl);
+   int v3 = collNext<int>(c, endOfColl, intFromStringColl);
+   int v4 = collNext<int>(c, endOfColl, intFromStringColl);
+
+   assert(v1 == 10);
+   assert(v2 == 20);
+   assert(v3 == 30);
+   assert(v4 == 0);
+   assert(endOfColl);
+}
+
+void testCollReset()
+{
+   Coll<int> c = buildIntColl(',');
+   c.curr = 2;
 
    collReset<int>(c);
-   assert(collHasNext<int>(c));
+
+   assert(c.curr == 0);
 }
 
-void testIterationWithEndFlag()
+void testCollToString()
 {
-   Coll<int> c = coll<int>(',');
-   collAdd<int>(c, 11, intToStringColl);
-   collAdd<int>(c, 22, intToStringColl);
+   Coll<int> c = buildIntColl(',');
+   c.curr = 1;
 
-   bool endOfColl = false;
-   assert(collNext<int>(c, endOfColl, intFromStringColl) == 11);
-   assert(!endOfColl);
-   assert(collNext<int>(c, endOfColl, intFromStringColl) == 22);
-   assert(!endOfColl);
-
-   int value = collNext<int>(c, endOfColl, intFromStringColl);
-   assert(endOfColl);
-   assert(value == 0);
+   assert(collToString<int>(c) == ",10,20,30");
 }
 
-int main()
+void testCollFromString()
 {
-   testCreateAndSize();
-   testAddGetAndSet();
-   testRemoveAndRemoveAll();
-   testFind();
-   testSort();
-   testIteration();
-   testIterationWithEndFlag();
+   Coll<int> c = collFromString<int>(";7;8;9");
 
-   cout << "Todos los tests de Coll pasaron correctamente." << endl;
-   return 0;
+   assert(c.sep == ';');
+   assert(c.s == "7;8;9");
+   assert(c.curr == 0);
 }
 

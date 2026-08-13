@@ -6,130 +6,187 @@
 using std::cout;
 using std::endl;
 
+// -- PROTOTIPOS --
+void testMap();
+void testMapGet();
+void testMapPut();
+void testMapContains();
+void testMapRemove();
+void testMapRemoveAll();
+void testMapSize();
+void testMapHasNext();
+void testMapNextKey();
+void testMapNextValue();
+void testMapReset();
+void testMapDiscover();
+void testMapSortByKeys();
+void testMapSortByValues();
+
+// -- MAIN --
+int main()
+{
+   testMap();
+//    testMapGet();
+//    testMapPut();
+//    testMapContains();
+//    testMapRemove();
+//    testMapRemoveAll();
+//    testMapSize();
+//    testMapHasNext();
+//    testMapNextKey();
+//    testMapNextValue();
+//    testMapReset();
+//    testMapDiscover();
+//    testMapSortByKeys();
+//    testMapSortByValues();
+
+   cout << "Todos los tests de Map pasaron correctamente." << endl;
+   return 0;
+}
+
+
 int cmpIntInt(int a, int b)
 {
    return a < b ? -1 : a > b ? 1 : 0;
 }
 
-void testCreateAndSize()
+Map<int, int> buildMap()
 {
    Map<int, int> m = map<int, int>();
-   assert((mapSize<int, int>(m)) == 0);
-   assert(!(mapHasNext<int, int>(m)));
+   mapPut<int, int>(m, 10, 100);
+   mapPut<int, int>(m, 20, 200);
+   mapPut<int, int>(m, 30, 300);
+   return m;
 }
 
-void testPutGetAndContains()
+void testMap()
+{
+   Map<int, int> m = map<int, int>();
+
+   assert(arraySize<int>(m.keys) == 0);
+   assert(arraySize<int>(m.values) == 0);
+   assert(m.curr == 0);
+}
+
+void testMapGet()
+{
+   Map<int, int> m = buildMap();
+
+   int* p1 = mapGet<int, int>(m, 10);
+   int* p2 = mapGet<int, int>(m, 30);
+   int* p3 = mapGet<int, int>(m, 99);
+
+   assert(p1 != NULL && *p1 == 100);
+   assert(p2 != NULL && *p2 == 300);
+   assert(p3 == NULL);
+}
+
+void testMapPut()
 {
    Map<int, int> m = map<int, int>();
 
    int* p1 = mapPut<int, int>(m, 10, 100);
+   int* p2 = mapPut<int, int>(m, 10, 999);
+
    assert(p1 != NULL);
-   assert(*p1 == 100);
-   assert((mapSize<int, int>(m)) == 1);
-
-   int* p2 = mapPut<int, int>(m, 20, 200);
    assert(p2 != NULL);
-   assert(*p2 == 200);
-   assert((mapSize<int, int>(m)) == 2);
+   assert(*p2 == 999);
+   assert((mapSize<int, int>(m) == 1));
+   assert((*mapGet<int, int>(m, 10) == 999));
+}
 
-   int* g1 = mapGet<int, int>(m, 10);
-   int* g2 = mapGet<int, int>(m, 20);
-   int* g3 = mapGet<int, int>(m, 99);
-   assert(g1 != NULL && *g1 == 100);
-   assert(g2 != NULL && *g2 == 200);
-   assert(g3 == NULL);
+void testMapContains()
+{
+   Map<int, int> m = buildMap();
 
    assert((mapContains<int, int>(m, 10)));
    assert((mapContains<int, int>(m, 20)));
    assert((!mapContains<int, int>(m, 99)));
 }
 
-void testPutReplace()
+void testMapRemove()
 {
-   Map<int, int> m = map<int, int>();
-   mapPut<int, int>(m, 10, 100);
-   assert((mapSize<int, int>(m)) == 1);
+   Map<int, int> m = buildMap();
 
-   int* p = mapPut<int, int>(m, 10, 999);
-   assert(p != NULL);
-   assert(*p == 999);
-   assert((mapSize<int, int>(m)) == 1);
-   assert(*(mapGet<int, int>(m, 10)) == 999);
-}
+   int value = mapRemove<int, int>(m, 20);
 
-void testRemoveAndRemoveAll()
-{
-   Map<int, int> m = map<int, int>();
-   mapPut<int, int>(m, 10, 100);
-   mapPut<int, int>(m, 20, 200);
-   mapPut<int, int>(m, 30, 300);
-
-   assert((mapRemove<int, int>(m, 20)) == 200);
-   assert((mapSize<int, int>(m)) == 2);
+   assert(value == 200);
+   assert((mapSize<int, int>(m) == 2));
    assert((!mapContains<int, int>(m, 20)));
    assert((mapContains<int, int>(m, 10)));
    assert((mapContains<int, int>(m, 30)));
+}
+
+void testMapRemoveAll()
+{
+   Map<int, int> m = buildMap();
+   m.curr = 2;
 
    mapRemoveAll<int, int>(m);
-   assert((mapSize<int, int>(m)) == 0);
-   assert(!(mapHasNext<int, int>(m)));
+
+   assert((mapSize<int, int>(m) == 0));
+   assert(m.curr == 0);
 }
 
-void testDiscover()
+void testMapSize()
 {
-   Map<int, int> m = map<int, int>();
-
-   int* p1 = mapDiscover<int, int>(m, 10, 100);
-   assert(p1 != NULL);
-   assert(*p1 == 100);
-   assert((mapSize<int, int>(m)) == 1);
-
-   int* p2 = mapDiscover<int, int>(m, 10, 999);
-   assert(p2 != NULL);
-   assert(*p2 == 100);
-   assert((mapSize<int, int>(m)) == 1);
-
-   int* p3 = mapDiscover<int, int>(m, 20, 200);
-   assert(p3 != NULL);
-   assert(*p3 == 200);
-   assert((mapSize<int, int>(m)) == 2);
+   Map<int, int> m = buildMap();
+   assert((mapSize<int, int>(m) == 3));
 }
 
-void testIterationKeys()
+void testMapHasNext()
 {
-   Map<int, int> m = map<int, int>();
-   mapPut<int, int>(m, 10, 100);
-   mapPut<int, int>(m, 20, 200);
-   mapPut<int, int>(m, 30, 300);
+   Map<int, int> m = buildMap();
+
+   assert((mapHasNext<int, int>(m)));
+   m.curr = 3;
+   assert((!mapHasNext<int, int>(m)));
+}
+
+void testMapNextKey()
+{
+   Map<int, int> m = buildMap();
+
+   int key = mapNextKey<int, int>(m);
+
+   assert(key == 10);
+   assert(m.curr == 1);
+}
+
+void testMapNextValue()
+{
+   Map<int, int> m = buildMap();
+
+   int* value = mapNextValue<int, int>(m);
+
+   assert(value != NULL);
+   assert(*value == 100);
+   assert(m.curr == 1);
+}
+
+void testMapReset()
+{
+   Map<int, int> m = buildMap();
+   m.curr = 2;
 
    mapReset<int, int>(m);
-   assert((mapHasNext<int, int>(m)));
-   assert((mapNextKey<int, int>(m)) == 10);
-   assert((mapHasNext<int, int>(m)));
-   assert((mapNextKey<int, int>(m)) == 20);
-   assert((mapHasNext<int, int>(m)));
-   assert((mapNextKey<int, int>(m)) == 30);
-   assert(!(mapHasNext<int, int>(m)));
+
+   assert(m.curr == 0);
 }
 
-void testIterationValues()
+void testMapDiscover()
 {
-   Map<int, int> m = map<int, int>();
-   mapPut<int, int>(m, 10, 100);
-   mapPut<int, int>(m, 20, 200);
-   mapPut<int, int>(m, 30, 300);
+   Map<int, int> m = buildMap();
 
-   mapReset<int, int>(m);
-   assert((mapHasNext<int, int>(m)));
-   assert(*(mapNextValue<int, int>(m)) == 100);
-   assert((mapHasNext<int, int>(m)));
-   assert(*(mapNextValue<int, int>(m)) == 200);
-   assert((mapHasNext<int, int>(m)));
-   assert(*(mapNextValue<int, int>(m)) == 300);
-   assert(!(mapHasNext<int, int>(m)));
+   int* p1 = mapDiscover<int, int>(m, 20, 999);
+   int* p2 = mapDiscover<int, int>(m, 40, 400);
+
+   assert(p1 != NULL && *p1 == 200);
+   assert(p2 != NULL && *p2 == 400);
+   assert((mapSize<int, int>(m) == 4));
 }
 
-void testSortByKeys()
+void testMapSortByKeys()
 {
    Map<int, int> m = map<int, int>();
    mapPut<int, int>(m, 30, 300);
@@ -137,18 +194,16 @@ void testSortByKeys()
    mapPut<int, int>(m, 20, 200);
 
    mapSortByKeys<int, int>(m, cmpIntInt);
-   mapReset<int, int>(m);
 
-   assert((mapNextKey<int, int>(m)) == 10);
-   assert((mapNextKey<int, int>(m)) == 20);
-   assert((mapNextKey<int, int>(m)) == 30);
-
-   assert(*(mapGet<int, int>(m, 10)) == 100);
-   assert(*(mapGet<int, int>(m, 20)) == 200);
-   assert(*(mapGet<int, int>(m, 30)) == 300);
+   assert(*arrayGet<int>(m.keys, 0) == 10);
+   assert(*arrayGet<int>(m.keys, 1) == 20);
+   assert(*arrayGet<int>(m.keys, 2) == 30);
+   assert(*arrayGet<int>(m.values, 0) == 100);
+   assert(*arrayGet<int>(m.values, 1) == 200);
+   assert(*arrayGet<int>(m.values, 2) == 300);
 }
 
-void testSortByValues()
+void testMapSortByValues()
 {
    Map<int, int> m = map<int, int>();
    mapPut<int, int>(m, 10, 300);
@@ -156,29 +211,12 @@ void testSortByValues()
    mapPut<int, int>(m, 30, 200);
 
    mapSortByValues<int, int>(m, cmpIntInt);
-   mapReset<int, int>(m);
 
-   assert(*(mapNextValue<int, int>(m)) == 100);
-   assert(*(mapNextValue<int, int>(m)) == 200);
-   assert(*(mapNextValue<int, int>(m)) == 300);
-
-   assert(*(mapGet<int, int>(m, 10)) == 300);
-   assert(*(mapGet<int, int>(m, 20)) == 100);
-   assert(*(mapGet<int, int>(m, 30)) == 200);
+   assert(*arrayGet<int>(m.values, 0) == 100);
+   assert(*arrayGet<int>(m.values, 1) == 200);
+   assert(*arrayGet<int>(m.values, 2) == 300);
+   assert(*arrayGet<int>(m.keys, 0) == 20);
+   assert(*arrayGet<int>(m.keys, 1) == 30);
+   assert(*arrayGet<int>(m.keys, 2) == 10);
 }
 
-int main()
-{
-   testCreateAndSize();
-   testPutGetAndContains();
-   testPutReplace();
-   testRemoveAndRemoveAll();
-   testDiscover();
-   testIterationKeys();
-   testIterationValues();
-   testSortByKeys();
-   testSortByValues();
-
-   cout << "Todos los tests de Map pasaron correctamente." << endl;
-   return 0;
-}

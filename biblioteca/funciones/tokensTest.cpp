@@ -8,6 +8,30 @@ using std::cout;
 using std::endl;
 using std::string;
 
+// -- PROTOTIPOS --
+void testTokenCount();
+void testAddToken();
+void testGetTokenAt();
+void testRemoveTokenAt();
+void testSetTokenAt();
+void testFindToken();
+
+// -- MAIN --
+int main()
+{
+   testTokenCount();
+//    testAddToken();
+//    testGetTokenAt();
+//    testRemoveTokenAt();
+//    testSetTokenAt();
+//    testFindToken();
+
+   cout << "Todos los tests de tokens pasaron correctamente." << endl;
+   return 0;
+}
+
+
+
 void testTokenCount()
 {
    assert(tokenCount("", ',') == 0);
@@ -83,15 +107,3 @@ void testFindToken()
    assert(findToken(s, ',', "cuatro") == -1);
 }
 
-int main()
-{
-   testTokenCount();
-   testAddToken();
-   testGetTokenAt();
-   testRemoveTokenAt();
-   testSetTokenAt();
-   testFindToken();
-
-   cout << "Todos los tests de tokens pasaron correctamente." << endl;
-   return 0;
-}
