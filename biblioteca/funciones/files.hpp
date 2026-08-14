@@ -39,6 +39,11 @@ int filePos(FILE* f)
 
 // --- manejor de archivos de texto ---
 
+bool readLine(FILE* f, string& ln, long long& byteNo)
+{
+    return false;
+}
+
 bool readLine(FILE* f, string& ln)
 {
     return false;
