@@ -49,6 +49,13 @@ bool readLine(FILE* f, string& ln)
     return false;
 }
 
+// -- ATENCION: IMPLEMENTAR DESPUES DE LA LECCION 13 --
+bool readLine(FILE* f,string ln,char sep,string*& fields,int& len)
+{
+    return false;
+}
+
+
 bool readWord(FILE* f, string& w, string alsoAllowed)
 {
     return false;
