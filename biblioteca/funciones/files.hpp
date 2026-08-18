@@ -50,7 +50,7 @@ bool readLine(FILE* f, string& ln)
 }
 
 // -- ATENCION: IMPLEMENTAR DESPUES DE LA LECCION 13 --
-bool readLine(FILE* f,string ln,char sep,string*& fields,int& len)
+bool readLine(FILE* f,string*& fields,int& len,char sep)
 {
     return false;
 }
